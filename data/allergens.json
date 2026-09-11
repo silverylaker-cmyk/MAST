@@ -90,7 +90,8 @@
   "sample_class": 4,
   "family": "수중다리진드기",
   "aliases": [
-   "저장 진드기 A"
+   "저장 진드기 A",
+   "저장진드기A"
   ]
  },
  {
@@ -106,7 +107,8 @@
   "sample_class": 2,
   "family": "긴털가루진드기",
   "aliases": [
-   "저장 진드기 T"
+   "저장 진드기 T",
+   "저장진드기T"
   ]
  },
  {
@@ -121,7 +123,10 @@
   "cross_reactive": false,
   "sample_class": 0,
   "family": "페니실리움",
-  "aliases": []
+  "aliases": [
+   "페니실륨",
+   "페니실리움"
+  ]
  },
  {
   "no": 9,
@@ -949,7 +954,8 @@
   "sample_class": 1,
   "family": "명아주",
   "aliases": [
-   "명아주과풀"
+   "명아주과풀",
+   "명아주과"
   ]
  },
  {
@@ -1740,7 +1746,7 @@
   "no": 123,
   "category": "식품-해산물",
   "name_en": "Lobster",
-  "name_ko": "랍스터/닭새우",
+  "name_ko": "랍스터",
   "code": "F80",
   "group": "food",
   "season": null,
@@ -1748,7 +1754,10 @@
   "cross_reactive": false,
   "sample_class": 1,
   "family": "랍스터",
-  "aliases": []
+  "aliases": [
+   "닭새우",
+   "랍스터/닭새우"
+  ]
  },
  {
   "no": 124,

@@ -1,7 +1,7 @@
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
 import { parseLines, splitTokens, type OcrLine } from './parse';
-import { matchToken, normalize } from './match';
+import { matchToken, normalize, segmentToken } from './match';
 import { summarize, bucket } from './classify';
 
 test('normalize strips codes and punctuation', () => {
@@ -102,4 +102,23 @@ test('summarize dedupes families and keeps max class', () => {
   assert.ok(b.autumn.some((x) => x.family === '쑥'));
   assert.ok(b.summer.some((x) => x.family === '큰조아재비'));
   assert.ok(b.perennial.some((x) => x.family === '바퀴벌레'));
+});
+
+test('segmentToken splits comma-less tokens', () => {
+  assert.deepEqual(segmentToken('저장 진드기 ㅠ 조개').map((a) => a.name_ko), ['수중다리진드기', '조개']); // 'ㅠ'는 A/T 구분 불가, 퍼지 매칭
+  assert.deepEqual(segmentToken('저장 진드기 T 조개').map((a) => a.name_en), ['T. putrescentiae', 'Clam']);
+  assert.deepEqual(segmentToken('집먼지 진드기 Dp 조개').map((a) => a.name_en), ['D. pteronyssinus', 'Clam']);
+  assert.deepEqual(segmentToken('조개'), []);
+});
+
+test('parseLines splits comma-less row text', () => {
+  const r = parseLines([
+    { text: '0.00 ~ 0.34 0 없거나 아주 낮음', x0: 20, y0: 70, x1: 300, y1: 90 },
+    { text: '3.50 ~ 17.49 3 보통 /조금 높음 집먼지, 진드기 Dp, 저장 진드기 T 조개', x0: 20, y0: 112, x1: 760, y1: 128 },
+    { text: '≥100.00 6 매우 높음', x0: 20, y0: 150, x1: 300, y1: 166 },
+  ]);
+  const names = r.findings.map((f) => f.no).sort();
+  assert.ok(names.includes(115)); // Clam
+  assert.ok(names.includes(7)); // T. putrescentiae
+  assert.ok(names.includes(1)); // House dust
 });

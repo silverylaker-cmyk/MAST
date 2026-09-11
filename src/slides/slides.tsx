@@ -22,10 +22,10 @@ export function S1Diagnosis({ d }: { d: SlideData }) {
   return (
     <Frame style={{ justifyContent: 'center' }}>
       <div style={{ display: 'flex', alignItems: 'center', gap: 60 }}>
-        <Illust src="01-diagnosis.png" style={{ width: 720, height: 620 }} />
+        <Illust src="01-diagnosis.jpg" style={{ width: 800, height: 450, borderRadius: 24, flexShrink: 0 }} />
         <div>
           <Sub delay={0} size={40}>{who}</Sub>
-          <Title delay={10} size={96}>
+          <Title delay={10} size={84}>
             <Em>알레르기 비염</Em>
             <br />
             으로 진단되었습니다
@@ -47,37 +47,45 @@ export function S2Model() {
   const a = easeOut(r(10, 20));
   const b = easeOut(r(40, 20));
   const c = useRise(80, 24);
+  const img = useRise(5, 20);
   return (
     <Frame>
       <Title>알레르기 비염은 어떤 병인가요?</Title>
-      <div style={{ display: 'flex', gap: 40, flex: 1, marginTop: 10 }}>
-        <div style={{ flex: 1, opacity: a, transform: `translateX(${(1 - a) * -40}px)` }}>
-          <div style={{ fontSize: 40, fontWeight: 900, color: COLORS.sub, textDecoration: 'line-through' }}>감염 ✗</div>
-          <p style={{ fontSize: 30, color: COLORS.sub }}>세균·바이러스가 들어와서 생기는 병이 아닙니다</p>
-        </div>
-        <div style={{ flex: 1.4, opacity: b, transform: `translateX(${(1 - b) * 40}px)` }}>
-          <div style={{ fontSize: 44, fontWeight: 900, color: COLORS.mintDark }}>면역 과민반응 ✓</div>
-          <p style={{ fontSize: 30, lineHeight: 1.6 }}>
-            해롭지 않은 꽃가루·진드기에 몸의 면역이 <Em>지나치게 반응</Em>해서
-            <br />
-            콧물·재채기·코막힘이 생깁니다
-          </p>
+      <div style={{ display: 'flex', gap: 50, flex: 1, alignItems: 'center', minHeight: 0 }}>
+        <Illust src="02-infection-vs-allergy.jpg" style={{ width: 880, height: 495, borderRadius: 24, flexShrink: 0, ...img }} />
+        <div style={{ flex: 1, display: 'flex', flexDirection: 'column', gap: 34 }}>
+          <div style={{ opacity: a, transform: `translateX(${(1 - a) * 40}px)` }}>
+            <div style={{ fontSize: 40, fontWeight: 900, color: COLORS.sub, textDecoration: 'line-through' }}>감염 ✗</div>
+            <p style={{ fontSize: 28, color: COLORS.sub, margin: '6px 0 0' }}>세균·바이러스가 들어와서 생기는 병이 아닙니다</p>
+          </div>
+          <div style={{ opacity: b, transform: `translateX(${(1 - b) * 40}px)` }}>
+            <div style={{ fontSize: 44, fontWeight: 900, color: COLORS.mintDark }}>면역 과민반응 ✓</div>
+            <p style={{ fontSize: 28, lineHeight: 1.6, margin: '6px 0 0' }}>
+              해롭지 않은 꽃가루·진드기에 몸의 면역이 <Em>지나치게 반응</Em>해서
+              <br />
+              콧물·재채기·코막힘이 생깁니다
+            </p>
+          </div>
         </div>
       </div>
-      <Illust src="02-infection-vs-allergy.png" style={{ width: '100%', height: 420, opacity: Math.max(a, b) }} />
       <div
         style={{
-          marginTop: 20,
-          padding: '26px 40px',
+          marginTop: 24,
+          display: 'flex',
+          alignItems: 'center',
+          gap: 28,
+          padding: '18px 34px',
           background: COLORS.beige,
           borderRadius: 24,
-          fontSize: 40,
+          fontSize: 38,
           fontWeight: 900,
-          textAlign: 'center',
           ...c,
         }}
       >
-        그래서 목표는 <Em>완치</Em>가 아니라 <Em color="#D62828">잘 조절하는 것</Em>입니다
+        <Illust src="02b-control-not-cure.jpg" style={{ width: 110, height: 110, borderRadius: 18 }} />
+        <div>
+          그래서 목표는 <Em>완치</Em>가 아니라 <Em color="#D62828">잘 조절하는 것</Em>입니다
+        </div>
       </div>
     </Frame>
   );
@@ -174,15 +182,15 @@ export function S4Allergens({ d }: { d: SlideData }) {
       <Title>{d.patientLabel ? `${d.patientLabel}님의 ` : ''}원인 항원</Title>
       <ClassLegend delay={6} />
       <div style={{ display: 'flex', gap: 28, marginTop: 26, flex: 1 }}>
-        <Column title="통년성" when="일 년 내내" items={b.perennial} image="04-perennial.png" delay={20} size={size} />
+        <Column title="통년성" when="일 년 내내" items={b.perennial} image="04-perennial.jpg" delay={20} size={size} />
         <div style={{ flex: 1.6, display: 'flex', flexDirection: 'column', gap: 14, minWidth: 0 }}>
           <div style={{ fontSize: 30, fontWeight: 900, color: COLORS.sub }}>계절성 — 꽃가루 철에</div>
-          <SeasonRow label="봄" when="3~5월" items={b.spring} image="04-spring.png" delay={35} size={size} />
-          <SeasonRow label="여름" when="5~8월" items={b.summer} image="04-summer.png" delay={45} size={size} />
-          <SeasonRow label="가을" when="8~10월" items={b.autumn} image="04-autumn.png" delay={55} size={size} />
+          <SeasonRow label="봄" when="3~5월" items={b.spring} image="04-spring.jpg" delay={35} size={size} />
+          <SeasonRow label="여름" when="5~8월" items={b.summer} image="04-summer.jpg" delay={45} size={size} />
+          <SeasonRow label="가을" when="8~10월" items={b.autumn} image="04-autumn.jpg" delay={55} size={size} />
           {seasonal.length === 0 && <div style={{ color: COLORS.sub, fontSize: 26 }}>계절성 항원 없음</div>}
         </div>
-        <Column title="음식·교차반응" items={[...b.food, ...b.other]} image="04-food-cross.png" delay={70} size={size} />
+        <Column title="음식·교차반응" items={[...b.food, ...b.other]} image="04-food-cross.jpg" delay={70} size={size} />
       </div>
       {cross.pollen.length > 0 && cross.foods.length > 0 && (
         <div style={{ marginTop: 18, fontSize: 26, color: COLORS.sub, ...st }}>
@@ -245,29 +253,47 @@ export function S5Avoid({ d }: { d: SlideData }) {
     <Frame>
       <Title>원인 항원 피하기</Title>
       <Sub>완전히 없앨 수는 없지만, 노출을 줄이면 약이 훨씬 잘 듣습니다.</Sub>
-      <div style={{ display: 'grid', gridTemplateColumns: `repeat(${Math.min(cards.length, 3) || 1}, 1fr)`, gap: 24, flex: 1 }}>
+      <div
+        style={{
+          display: 'grid',
+          gridTemplateColumns: `repeat(${cards.length <= 3 ? cards.length || 1 : Math.ceil(cards.length / 2)}, 1fr)`,
+          gridAutoRows: '1fr',
+          gap: 20,
+          flex: 1,
+          minHeight: 0,
+        }}
+      >
         {cards.length === 0 && <div style={{ fontSize: 30, color: COLORS.sub }}>양성 항원이 없어 회피요법 카드가 없습니다.</div>}
         {cards.slice(0, 6).map((c, i) => (
-          <AvoidCardView key={c.key} c={c} delay={15 + i * 15} />
+          <AvoidCardView key={c.key} c={c} delay={15 + i * 15} compact={cards.length > 3} />
         ))}
       </div>
     </Frame>
   );
 }
 
-function AvoidCardView({ c, delay }: { c: ReturnType<typeof avoidanceCards>[number]; delay: number }) {
+function AvoidCardView({
+  c,
+  delay,
+  compact,
+}: {
+  c: ReturnType<typeof avoidanceCards>[number];
+  delay: number;
+  compact: boolean;
+}) {
   const st = useRise(delay);
   const r = useReveal();
+  const img = compact ? 80 : 110;
   return (
-    <div style={{ background: '#fff', borderRadius: 24, padding: 26, border: `2px solid ${COLORS.line}`, ...st }}>
+    <div style={{ background: '#fff', borderRadius: 24, padding: compact ? 18 : 26, border: `2px solid ${COLORS.line}`, minHeight: 0, overflow: 'hidden', ...st }}>
       <div style={{ display: 'flex', gap: 16, alignItems: 'center' }}>
-        <Illust src={c.image} style={{ width: 110, height: 110, borderRadius: 16 }} />
+        <Illust src={c.image} style={{ width: img, height: img, borderRadius: 16 }} />
         <div>
-          <div style={{ fontSize: 34, fontWeight: 900 }}>{c.title}</div>
-          <div style={{ fontSize: 20, color: COLORS.sub }}>{c.families.slice(0, 8).join(', ')}{c.families.length > 8 ? ` 외 ${c.families.length - 8}개` : ''}</div>
+          <div style={{ fontSize: compact ? 28 : 34, fontWeight: 900 }}>{c.title}</div>
+          <div style={{ fontSize: compact ? 18 : 20, color: COLORS.sub }}>{c.families.slice(0, 8).join(', ')}{c.families.length > 8 ? ` 외 ${c.families.length - 8}개` : ''}</div>
         </div>
       </div>
-      <ul style={{ margin: '18px 0 0', paddingLeft: 28, fontSize: 25, lineHeight: 1.55 }}>
+      <ul style={{ margin: compact ? '10px 0 0' : '18px 0 0', paddingLeft: 28, fontSize: compact ? 21 : 25, lineHeight: 1.5 }}>
         {c.tips.map((t, i) => (
           <li key={i} style={{ opacity: easeOut(r(delay + 12 + i * 6, 12)) }}>
             {t}
@@ -293,7 +319,7 @@ export function S6Comorbid() {
       <Title>함께 나타날 수 있는 증상·질환</Title>
       <Sub>비염만 있는 게 아니라 아래 증상이 같이 있는 경우가 많습니다. 해당되면 말씀해 주세요.</Sub>
       <div style={{ display: 'flex', gap: 50, flex: 1, alignItems: 'center' }}>
-        <Illust src="06-comorbid.png" style={{ width: 560, height: 640 }} />
+        <Illust src="06-comorbid.jpg" style={{ width: 560, height: 640 }} />
         <div style={{ flex: 1, display: 'flex', flexDirection: 'column', gap: 18 }}>
           {COMORBID.map((c, i) => {
             const t = easeOut(r(15 + i * 14, 16));
@@ -339,7 +365,7 @@ export function S7Treatment() {
     <Frame>
       <Title>치료 계획</Title>
       <div style={{ display: 'flex', gap: 40, flex: 1, alignItems: 'stretch' }}>
-        <Illust src="07-treatment.png" style={{ width: 620, height: 620, alignSelf: 'center' }} />
+        <Illust src="07-treatment.jpg" style={{ width: 620, height: 620, alignSelf: 'center' }} />
         <div style={{ flex: 1, display: 'flex', flexDirection: 'column', gap: 22 }}>
           <div style={box({ borderColor: COLORS.mintDark, borderWidth: 4, ...a })}>
             <div style={{ fontSize: 26, color: COLORS.mintDark, fontWeight: 900 }}>기본 치료 ①</div>
@@ -380,7 +406,7 @@ export function S8Timeline() {
   return (
     <Frame>
       <Title>언제 좋아지고, 언제 다시 오나요?</Title>
-      <Illust src="08-timeline.png" style={{ width: '100%', height: 360 }} />
+      <Illust src="08-timeline.jpg" style={{ width: '100%', height: 360 }} />
       <div style={{ position: 'relative', marginTop: 30, flex: 1 }}>
         <div
           style={{
@@ -428,7 +454,7 @@ export function S9Future() {
   return (
     <Frame style={{ justifyContent: 'center' }}>
       <div style={{ display: 'flex', alignItems: 'center', gap: 60 }}>
-        <Illust src="09-future.png" style={{ width: 700, height: 600 }} />
+        <Illust src="09-future.jpg" style={{ width: 700, height: 600 }} />
         <div>
           <Title delay={0}>앞으로의 선택지</Title>
           <p style={{ fontSize: 38, lineHeight: 1.6, ...a }}>

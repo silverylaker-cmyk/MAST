@@ -33,9 +33,19 @@ export function SlideShow({ data, onExit, saveStatus }: Props) {
     return () => window.removeEventListener('keydown', onKey);
   }, [next, prev, onExit]);
 
+  // 재생이 끝나면 마지막 프레임에 고정 (Player 기본 동작은 처음으로 되감기)
   useEffect(() => {
-    ref.current?.seekTo(0);
-    ref.current?.play();
+    const p = ref.current;
+    if (!p) return;
+    let done = false;
+    const onEnded = () => {
+      if (done) return; // seekTo가 다시 ended를 일으키므로 한 번만
+      done = true;
+      p.pause();
+      p.seekTo(SLIDES[i].frames - 1);
+    };
+    p.addEventListener('ended', onEnded);
+    return () => p.removeEventListener('ended', onEnded);
   }, [i]);
 
   useEffect(() => {
@@ -87,6 +97,7 @@ export function SlideShow({ data, onExit, saveStatus }: Props) {
       </div>
       <div className="show-stage">
         <Player
+          key={i}
           ref={ref}
           component={SlideComp}
           inputProps={inputProps}

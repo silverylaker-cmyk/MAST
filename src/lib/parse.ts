@@ -1,4 +1,4 @@
-import { matchToken } from './match';
+import { matchToken, segmentToken } from './match';
 import type { Finding } from './types';
 
 /** OCR 결과 한 줄 (위치 포함) */
@@ -88,7 +88,15 @@ function median(xs: number[]): number {
   return s[Math.floor(s.length / 2)];
 }
 
-const LABELS = ['없거나 아주 낮음', '보통/조금 높음', '조금 높음', '매우 높음', '낮음', '보통', '높음'];
+const LABELS = [
+  /없거나\s*아주\s*낮음/g,
+  /보통\s*\/?\s*조금\s*높음/g,
+  /\/?\s*조금\s*높음/g,
+  /매우\s*높음/g,
+  /낮음/g,
+  /보통/g,
+  /높음/g,
+];
 
 /** 항원명 셀 텍스트를 쉼표 기준으로 토큰화. 괄호 안 쉼표는 보호 */
 export function splitTokens(text: string): string[] {
@@ -110,7 +118,7 @@ export function splitTokens(text: string): string[] {
 function stripLabel(s: string): string {
   let t = s;
   for (const l of LABELS) t = t.replace(l, ' ');
-  return t.replace(/\s+/g, ' ').trim();
+  return t.replace(/^[\s/|,.:;'"’`]+/, '').replace(/\s+/g, ' ').trim();
 }
 
 export interface ParsedReport {
@@ -289,6 +297,15 @@ function finish(rows: Map<number, string[]>, totalIgE: number | null): ParsedRep
       if (seenTok.has(key)) continue;
       seenTok.add(key);
       const m = matchToken(tok);
+      const normLen = tok.replace(/[^가-힣A-Za-z0-9]/g, '').length;
+      if (!m.isComponent && (m.score < 0.85 || m.keyLength < normLen * 0.85)) {
+        // 쉼표 누락으로 여러 항원이 붙은 토큰이면 쪼개서 각각 넣는다
+        const parts = segmentToken(tok);
+        if (parts.length >= 2) {
+          for (const a of parts) findings.push({ raw: `${tok} → ${a.name_ko}`, cls, no: a.no, score: 0.75 });
+          continue;
+        }
+      }
       findings.push({ raw: tok, cls, no: m.allergen?.no ?? null, score: m.score });
     }
   }
