@@ -140,13 +140,15 @@ export function S2Model() {
           ...c,
         }}
       >
-        <Illust src="02b-control-not-cure.jpg" style={{ width: 90, height: 90, borderRadius: 18 }} />
+        <Illust src="02b-control-not-cure.jpg" style={{ width: 100, height: 100, borderRadius: 18 }} />
         <div>
-          그래서 목표는 <Em>완치</Em>가 아니라 <Em color="#D62828">잘 조절하는 것</Em>입니다
+          <div>
+            그래서 목표는 <Em>완치</Em>가 아니라 <Em color="#D62828">잘 조절하는 것</Em>입니다
+          </div>
+          <div style={{ fontSize: 30, fontWeight: 700, color: '#A4161A', marginTop: 8, ...d }}>
+            조절하지 않으면 귀, 목을 거쳐 심장과 폐까지 번집니다.
+          </div>
         </div>
-      </div>
-      <div style={{ marginTop: 14, fontSize: 30, fontWeight: 700, color: '#A4161A', textAlign: 'center', ...d }}>
-        조절하지 않으면 귀, 목을 거쳐 심장과 폐까지 번집니다.
       </div>
     </Frame>
   );
@@ -467,7 +469,7 @@ export function S8Timeline() {
   return (
     <Frame>
       <Title>언제 좋아지고, 언제 다시 오나요?</Title>
-      <Illust src="08-timeline.jpg" fade="bottom" style={{ width: '80%', height: 416, objectFit: 'cover', objectPosition: 'center top', margin: '-10px auto 0' }} />
+      <Illust src="08-timeline-crop.jpg" style={{ width: '70%', height: 'auto', margin: '-6px auto 0', borderRadius: 20 }} />
       <div style={{ position: 'relative', marginTop: 30, flex: 1 }}>
         <div
           style={{
