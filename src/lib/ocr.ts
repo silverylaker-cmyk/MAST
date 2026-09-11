@@ -20,17 +20,17 @@ function getWorker() {
 
 /** 이미지를 3배로 키우고 이진화해 OCR 인식률을 높인다 (화면 캡처는 글자가 작음) */
 /** 실험용: ?scale=3&thr=160&pixel=1 로 전처리 설정을 바꿀 수 있다 */
-function tuning() {
+function tuning(scaleOverride?: number) {
   const q = new URLSearchParams(location.search);
   return {
-    scale: Number(q.get('scale') ?? 3),
+    scale: scaleOverride ?? Number(q.get('scale') ?? 3),
     thr: Number(q.get('thr') ?? 160),
     pixelated: q.get('pixel') === '1',
   };
 }
 
-async function upscale(dataUrl: string): Promise<{ canvas: HTMLCanvasElement; separators: number[] }> {
-  const { scale, thr, pixelated } = tuning();
+async function upscale(dataUrl: string, scaleOverride?: number): Promise<{ canvas: HTMLCanvasElement; separators: number[] }> {
+  const { scale, thr, pixelated } = tuning(scaleOverride);
   const img = new Image();
   img.src = dataUrl;
   await img.decode();
@@ -65,11 +65,12 @@ async function upscale(dataUrl: string): Promise<{ canvas: HTMLCanvasElement; se
 export async function recognizeLines(
   dataUrl: string,
   onProgress?: (msg: string) => void,
+  scale?: number,
 ): Promise<{ lines: OcrLine[]; separators: number[] }> {
   onProgress?.('OCR 엔진 준비 중…');
   const worker = await getWorker();
   onProgress?.('이미지 전처리 중…');
-  const { canvas, separators } = await upscale(dataUrl);
+  const { canvas, separators } = await upscale(dataUrl, scale);
   onProgress?.('글자 인식 중… (첫 실행은 언어 데이터 다운로드로 20~30초 걸릴 수 있습니다)');
   const { data } = await worker.recognize(canvas, {}, { blocks: true });
   const lines: OcrLine[] = [];

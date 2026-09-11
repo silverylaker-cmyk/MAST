@@ -374,3 +374,24 @@ function finish(rows: Map<number, string[]>, totalIgE: number | null): ParsedRep
   });
   return { findings: deduped, totalIgE, rows: rowLog.sort((a, b) => a.cls - b.cls) };
 }
+
+/**
+ * 두 번 판독한 결과 합치기. 1차를 기본으로 하고, 2차에서 확신 높게(≥0.8) 매칭된 항원만 보탠다.
+ * 같은 항원이면 높은 Class를 쓴다. 미매칭 토큰은 1차 것만 남긴다.
+ */
+export function mergeParsed(primary: ParsedReport, secondary: ParsedReport): ParsedReport {
+  const byNo = new Map<number, Finding>();
+  const unmatched: Finding[] = [];
+  for (const f of primary.findings) {
+    if (f.no === null) unmatched.push(f);
+    else byNo.set(f.no, f);
+  }
+  for (const f of secondary.findings) {
+    if (f.no === null || f.score < 0.8) continue;
+    const cur = byNo.get(f.no);
+    if (!cur) byNo.set(f.no, f);
+    else if (f.cls > cur.cls) byNo.set(f.no, { ...cur, cls: f.cls });
+  }
+  const findings = [...byNo.values(), ...unmatched].sort((a, b) => b.cls - a.cls || a.raw.localeCompare(b.raw));
+  return { findings, totalIgE: primary.totalIgE ?? secondary.totalIgE, rows: primary.rows };
+}
