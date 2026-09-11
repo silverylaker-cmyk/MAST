@@ -1,4 +1,5 @@
 import { useMemo, useState } from 'react';
+import { chartText } from '../lib/chart';
 import { ALLERGENS, byNo } from '../lib/allergens';
 import { summarize } from '../lib/classify';
 import { CLASS_COLOR } from '../slides/theme';
@@ -19,6 +20,7 @@ interface Props {
 export function Review(p: Props) {
   const [addQuery, setAddQuery] = useState('');
   const [addCls, setAddCls] = useState(2);
+  const [copied, setCopied] = useState(false);
   const unmatched = p.findings.filter((f) => f.no === null);
   const lowConf = p.findings.filter((f) => f.no !== null && f.score < 0.8);
   const fams = useMemo(() => summarize(p.findings), [p.findings]);
@@ -150,7 +152,29 @@ export function Review(p: Props) {
         </div>
 
         <div className="summary">
-          <b>슬라이드에 표시될 양성 항원 ({fams.length})</b>
+          <div className="summary-head">
+            <b>슬라이드에 표시될 양성 항원 ({fams.length})</b>
+            <button
+              onClick={async () => {
+                const text = chartText(fams, p.totalIgE);
+                try {
+                  await navigator.clipboard.writeText(text);
+                } catch {
+                  const ta = document.createElement('textarea');
+                  ta.value = text;
+                  document.body.appendChild(ta);
+                  ta.select();
+                  document.execCommand('copy');
+                  ta.remove();
+                }
+                setCopied(true);
+                setTimeout(() => setCopied(false), 2000);
+              }}
+              title="차트에 붙여넣을 텍스트 복사"
+            >
+              {copied ? '복사됨 ✓' : '복사하기'}
+            </button>
+          </div>
           <div className="chips">
             {fams.map((f) => (
               <span key={`${f.group}${f.family}`} style={{ color: CLASS_COLOR[f.cls], borderColor: CLASS_COLOR[f.cls] }}>

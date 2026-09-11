@@ -3,6 +3,7 @@ import assert from 'node:assert/strict';
 import { parseLines, splitTokens, type OcrLine } from './parse';
 import { matchToken, normalize, segmentToken } from './match';
 import { summarize, bucket } from './classify';
+import { chartText } from './chart';
 
 test('normalize strips codes and punctuation', () => {
   assert.equal(normalize('rDer p 10 (진드기 (Dp))'), 'rderp10진드기dp');
@@ -161,4 +162,14 @@ test('band mode: misread ≥100 row still becomes class 6', () => {
   const lines2 = lines.map((l) => (l.text.startsWith('210000') ? { ...l, text: 'xx 매우 높음 진드기 Df' } : l));
   const s2 = summarize(parseLines(lines2, seps).findings);
   assert.equal(s2.find((x) => x.family === '집먼지진드기')?.cls, 6);
+});
+
+test('chartText formats for the chart', () => {
+  const r = parseLines(sample);
+  const txt = chartText(summarize(r.findings), r.totalIgE, new Date(2026, 8, 11));
+  const lines = txt.split('\n');
+  assert.equal(lines[0], 'MAST(2026-09-11) : 총IgE 1224');
+  assert.ok(lines[1].startsWith('Class 6: '));
+  assert.ok(lines[1].includes('집먼지진드기'));
+  assert.ok(lines[lines.length - 1].startsWith('Class 1: '));
 });

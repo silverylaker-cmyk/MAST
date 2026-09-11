@@ -47,6 +47,8 @@ button.x { padding: 4px 8px; color: #a00; }
 .add-row input { flex: 1; }
 .candidates { position: absolute; top: 44px; left: 0; right: 0; background: #fff; border: 1px solid var(--line); border-radius: 10px; padding: 6px; display: flex; flex-wrap: wrap; gap: 6px; z-index: 5; box-shadow: 0 8px 24px rgba(0,0,0,.1); }
 .candidates small { color: var(--sub); }
+.summary-head { display: flex; justify-content: space-between; align-items: center; }
+.summary-head button { padding: 6px 14px; font-weight: 700; color: var(--mint); border-color: var(--mint); }
 .summary { margin-top: 20px; padding: 14px; background: #fff; border: 1px solid var(--line); border-radius: 12px; }
 .chips { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 10px; }
 .chips span { border: 2px solid; border-radius: 999px; padding: 3px 12px; font-weight: 700; font-size: 14px; }
