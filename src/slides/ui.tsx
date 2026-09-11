@@ -5,12 +5,23 @@ import type { FamilyResult } from '../lib/types';
 const base = import.meta.env.BASE_URL;
 
 /** 사용자가 만든 그림. 파일이 없으면 자리만 비운다. */
-export function Illust({ src, style }: { src: string; style?: React.CSSProperties }) {
+type Fade = 'right' | 'left' | 'bottom' | 'top' | 'none';
+const FADE: Record<Fade, string | undefined> = {
+  none: undefined,
+  right: 'linear-gradient(to right, #000 55%, transparent 100%)',
+  left: 'linear-gradient(to left, #000 55%, transparent 100%)',
+  bottom: 'linear-gradient(to bottom, #000 60%, transparent 100%)',
+  top: 'linear-gradient(to top, #000 60%, transparent 100%)',
+};
+
+/** 사용자가 만든 그림. 파일이 없으면 자리만 비운다. fade: 글자와 겹치는 쪽을 투명하게 */
+export function Illust({ src, style, fade = 'none' }: { src: string; style?: React.CSSProperties; fade?: Fade }) {
+  const mask = FADE[fade];
   return (
     <img
       src={`${base}images/${src}`}
       alt=""
-      style={{ objectFit: 'contain', ...style }}
+      style={{ objectFit: 'contain', WebkitMaskImage: mask, maskImage: mask, ...style }}
       onError={(e) => ((e.currentTarget as HTMLImageElement).style.display = 'none')}
     />
   );

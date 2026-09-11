@@ -138,3 +138,27 @@ test('readTotalIgE picks the number under the 결과 column', () => {
   ]);
   assert.equal(r.totalIgE, 212);
 });
+
+test('band mode: misread ≥100 row still becomes class 6', () => {
+  const L = (text: string, y: number, x0 = 20) => ({ text, x0, y0: y, x1: 760, y1: y + 20 });
+  const lines = [
+    L('IU/mL Class 특이 IgE 항체 농도', 40),
+    L('0.00 ~ 0.34 0 없거나 아주 낮음', 70),
+    L('0.35 ~ 0.69 1 낮음', 100),
+    L('0.70 ~ 3.49 2 보통', 130),
+    L('3.50 ~ 17.49 3 보통/조금 높음', 160),
+    L('17.50 ~ 49.99 4 조금 높음', 190),
+    L('50.00 ~99.99 5 높음 집먼지, 진드기 Dp', 220),
+    L('210000 6 매우 높음 진드기 Df, (062 (진드기 (Df))', 250),
+    L('총 IgE', 300),
+  ];
+  const seps = [30, 60, 90, 120, 150, 180, 210, 240, 270, 290];
+  const r = parseLines(lines, seps);
+  const s = summarize(r.findings);
+  assert.equal(s.find((x) => x.family === '집먼지진드기')?.cls, 6);
+  assert.ok(!s.some((x) => x.family === '집먼지'));
+  // 앵커가 전혀 안 읽히는 경우도 순서로 채움
+  const lines2 = lines.map((l) => (l.text.startsWith('210000') ? { ...l, text: 'xx 매우 높음 진드기 Df' } : l));
+  const s2 = summarize(parseLines(lines2, seps).findings);
+  assert.equal(s2.find((x) => x.family === '집먼지진드기')?.cls, 6);
+});

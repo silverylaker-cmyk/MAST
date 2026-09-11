@@ -44,15 +44,22 @@ interface AnchorMatch {
 
 /** 앵커 행 판정: "0.35 ~ 0.69  1  낮음 …" / "350~1749 3 …" / "≥100.00 6 매우 높음 …" / "0.70 ~3.49 > 보통 …" */
 function detectAnchor(text: string): AnchorMatch | null {
-  let m = RANGE.exec(text);
+  let m: RegExpExecArray | null = RANGE.exec(text);
   let byBound: number | null = null;
   if (m) {
     const lo = m[1].replace(/\D/g, '');
     byBound = LOWER_BOUND_CLASS[lo] ?? null;
   } else {
     m = GE.exec(text);
-    if (!m) return null;
-    byBound = m[1].replace(/\D/g, '').startsWith('100') ? 6 : null;
+    if (m) {
+      byBound = m[1].replace(/\D/g, '').startsWith('100') ? 6 : null;
+    } else {
+      // "≥100.00"이 "210000"처럼 읽힌 경우: 숫자 덩어리 + Class 숫자 + 라벨
+      m = /^\s*[^\s가-힣]*\d[^\s가-힣]*(?=\s+[0-6]\b)/.exec(text);
+      if (!m) return null;
+      const tail = text.slice(m.index + m[0].length, m.index + m[0].length + 24);
+      if (!LABEL_CLASS.some(([re]) => re.test(tail))) return null;
+    }
   }
   let end = m.index + m[0].length;
   // 범위 뒤에 붙은 Class 숫자(또는 오인식된 기호 한 글자)
@@ -234,10 +241,15 @@ export function parseLines(lines: OcrLine[], separators: number[] = []): ParsedR
         text = stripLabel(joinHangul(text));
         if (text && /[가-힣A-Za-z]/.test(text)) parts.push(text);
       }
-      if (cls === null) continue;
+      // 앵커를 못 읽은 띠: 이전 띠의 Class + 1 로 추정 (표는 항상 0~6 순서)
+      if (cls === null) {
+        const prev = bands[bands.length - 1];
+        if (!prev || prev.cls >= 6) continue;
+        cls = prev.cls + 1;
+      }
       bands.push({ cls, parts });
     }
-    // 표는 항상 Class 0~6 순서. 읽은 Class가 순서대로 커지지 않으면(오독) 위치 순서로 보정한다
+    // 읽은 Class가 순서대로 커지지 않으면(오독) 위치 순서로 보정한다
     const increasing = bands.every((b, i) => i === 0 || b.cls > bands[i - 1].cls);
     if (!increasing && bands.length === 7) bands.forEach((b, i) => (b.cls = i));
     for (const b of bands) {

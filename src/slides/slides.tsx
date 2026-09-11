@@ -20,9 +20,13 @@ export function S1Diagnosis({ d }: { d: SlideData }) {
   const who = d.patientLabel ? `${d.patientLabel}님은` : '검사 결과,';
   const st = useRise(30, 24);
   return (
-    <Frame style={{ justifyContent: 'center' }}>
-      <div style={{ display: 'flex', alignItems: 'center', gap: 60 }}>
-        <Illust src="01-diagnosis.jpg" style={{ width: 800, height: 450, borderRadius: 24, flexShrink: 0 }} />
+    <Frame style={{ justifyContent: 'center', padding: 0 }}>
+      <Illust
+        src="01-diagnosis.jpg"
+        fade="right"
+        style={{ position: 'absolute', left: 0, top: 0, width: 1250, height: 1080, objectFit: 'cover', objectPosition: 'left center' }}
+      />
+      <div style={{ position: 'absolute', right: 110, top: 0, bottom: 0, width: 900, display: 'flex', alignItems: 'center' }}>
         <div>
           <Sub delay={0} size={40}>{who}</Sub>
           <Title delay={10} size={84}>
@@ -52,7 +56,7 @@ export function S2Model() {
     <Frame>
       <Title>알레르기 비염은 어떤 병인가요?</Title>
       <div style={{ display: 'flex', gap: 50, flex: 1, alignItems: 'center', minHeight: 0 }}>
-        <Illust src="02-infection-vs-allergy.jpg" style={{ width: 880, height: 495, borderRadius: 24, flexShrink: 0, ...img }} />
+        <Illust src="02-infection-vs-allergy.jpg" fade="right" style={{ width: 1060, height: 596, flexShrink: 0, marginLeft: -40, ...img }} />
         <div style={{ flex: 1, display: 'flex', flexDirection: 'column', gap: 34 }}>
           <div style={{ opacity: a, transform: `translateX(${(1 - a) * 40}px)` }}>
             <div style={{ fontSize: 40, fontWeight: 900, color: COLORS.sub, textDecoration: 'line-through' }}>감염 ✗</div>
@@ -82,7 +86,7 @@ export function S2Model() {
           ...c,
         }}
       >
-        <Illust src="02b-control-not-cure.jpg" style={{ width: 110, height: 110, borderRadius: 18 }} />
+        <Illust src="02b-control-not-cure.jpg" style={{ width: 130, height: 130, borderRadius: 18 }} />
         <div>
           그래서 목표는 <Em>완치</Em>가 아니라 <Em color="#D62828">잘 조절하는 것</Em>입니다
         </div>
@@ -145,7 +149,7 @@ function Column({
       }}
     >
       <div style={{ display: 'flex', alignItems: 'center', gap: 16 }}>
-        <Illust src={image} style={{ width: 90, height: 90, borderRadius: 16 }} />
+        <Illust src={image} style={{ width: 120, height: 120, borderRadius: 18 }} />
         <div>
           <div style={{ fontSize: 36, fontWeight: 900 }}>{title}</div>
           {when && <div style={{ fontSize: 22, color: COLORS.sub }}>{when}</div>}
@@ -190,7 +194,7 @@ export function S4Allergens({ d }: { d: SlideData }) {
           <SeasonRow label="가을" when="8~10월" items={b.autumn} image="04-autumn.jpg" delay={55} size={size} />
           {seasonal.length === 0 && <div style={{ color: COLORS.sub, fontSize: 26 }}>계절성 항원 없음</div>}
         </div>
-        <Column title="음식·교차반응" items={[...b.food, ...b.other]} image="04-food-cross.jpg" delay={70} size={size} />
+        <Column title="그 외 (음식·교차반응·기타)" items={[...b.food, ...b.other]} image="04-food-cross.jpg" delay={70} size={size} />
       </div>
       {cross.pollen.length > 0 && cross.foods.length > 0 && (
         <div style={{ marginTop: 18, fontSize: 26, color: COLORS.sub, ...st }}>
@@ -232,7 +236,7 @@ function SeasonRow({
         ...st,
       }}
     >
-      <Illust src={image} style={{ width: 70, height: 70, borderRadius: 14 }} />
+      <Illust src={image} style={{ width: 96, height: 96, borderRadius: 16 }} />
       <div style={{ width: 110, flexShrink: 0 }}>
         <div style={{ fontSize: 32, fontWeight: 900 }}>{label}</div>
         <div style={{ fontSize: 20, color: COLORS.sub, whiteSpace: 'nowrap' }}>{when}</div>
@@ -283,7 +287,7 @@ function AvoidCardView({
 }) {
   const st = useRise(delay);
   const r = useReveal();
-  const img = compact ? 80 : 110;
+  const img = compact ? 110 : 150;
   return (
     <div style={{ background: '#fff', borderRadius: 24, padding: compact ? 18 : 26, border: `2px solid ${COLORS.line}`, minHeight: 0, overflow: 'hidden', ...st }}>
       <div style={{ display: 'flex', gap: 16, alignItems: 'center' }}>
@@ -318,8 +322,8 @@ export function S6Comorbid() {
     <Frame>
       <Title>함께 나타날 수 있는 증상·질환</Title>
       <Sub>비염만 있는 게 아니라 아래 증상이 같이 있는 경우가 많습니다. 해당되면 말씀해 주세요.</Sub>
-      <div style={{ display: 'flex', gap: 50, flex: 1, alignItems: 'center' }}>
-        <Illust src="06-comorbid.jpg" style={{ width: 560, height: 640 }} />
+      <div style={{ display: 'flex', gap: 30, flex: 1, alignItems: 'center' }}>
+        <Illust src="06-comorbid.jpg" fade="right" style={{ width: 760, height: 640, objectFit: 'cover', objectPosition: 'left center', marginLeft: -60 }} />
         <div style={{ flex: 1, display: 'flex', flexDirection: 'column', gap: 18 }}>
           {COMORBID.map((c, i) => {
             const t = easeOut(r(15 + i * 14, 16));
@@ -365,7 +369,7 @@ export function S7Treatment() {
     <Frame>
       <Title>치료 계획</Title>
       <div style={{ display: 'flex', gap: 40, flex: 1, alignItems: 'stretch' }}>
-        <Illust src="07-treatment.jpg" style={{ width: 620, height: 620, alignSelf: 'center' }} />
+        <Illust src="07-treatment.jpg" fade="right" style={{ width: 780, height: 700, objectFit: 'cover', objectPosition: 'left center', alignSelf: 'center', marginLeft: -60 }} />
         <div style={{ flex: 1, display: 'flex', flexDirection: 'column', gap: 22 }}>
           <div style={box({ borderColor: COLORS.mintDark, borderWidth: 4, ...a })}>
             <div style={{ fontSize: 26, color: COLORS.mintDark, fontWeight: 900 }}>기본 치료 ①</div>
@@ -406,7 +410,7 @@ export function S8Timeline() {
   return (
     <Frame>
       <Title>언제 좋아지고, 언제 다시 오나요?</Title>
-      <Illust src="08-timeline.jpg" style={{ width: '100%', height: 360 }} />
+      <Illust src="08-timeline.jpg" fade="bottom" style={{ width: '100%', height: 520, objectFit: 'cover', objectPosition: 'center top', marginTop: -20 }} />
       <div style={{ position: 'relative', marginTop: 30, flex: 1 }}>
         <div
           style={{
@@ -453,8 +457,8 @@ export function S9Future() {
   const b = useRise(40, 24);
   return (
     <Frame style={{ justifyContent: 'center' }}>
-      <div style={{ display: 'flex', alignItems: 'center', gap: 60 }}>
-        <Illust src="09-future.jpg" style={{ width: 700, height: 600 }} />
+      <div style={{ display: 'flex', alignItems: 'center', gap: 20 }}>
+        <Illust src="09-future.jpg" fade="right" style={{ width: 960, height: 640, objectFit: 'cover', objectPosition: 'center', marginLeft: -40, flexShrink: 0 }} />
         <div>
           <Title delay={0}>앞으로의 선택지</Title>
           <p style={{ fontSize: 38, lineHeight: 1.6, ...a }}>

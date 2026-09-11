@@ -10,7 +10,7 @@
   "component": false,
   "cross_reactive": false,
   "sample_class": null,
-  "family": "집먼지",
+  "family": "집먼지진드기",
   "aliases": []
  },
  {
@@ -28,7 +28,10 @@
   "aliases": [
    "진드기 Dp",
    "집먼지진드기 Dp",
-   "Dp"
+   "Dp",
+   "진드기 Op",
+   "진드기 0p",
+   "진드기 00"
   ]
  },
  {
@@ -60,7 +63,9 @@
   "aliases": [
    "진드기 Df",
    "집먼지진드기 Df",
-   "Df"
+   "Df",
+   "진드기 Of",
+   "진드기 0f"
   ]
  },
  {
