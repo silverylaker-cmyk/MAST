@@ -27,6 +27,7 @@ export default function App() {
     setError('');
     try {
       const { lines, separators } = await recognizeLines(dataUrl, setProgress);
+      if (location.search.includes('debug')) (window as unknown as { __ocrLines: unknown }).__ocrLines = lines;
       const r = parseLines(lines, separators);
       setFindings(r.findings);
       setTotalIgE(r.totalIgE);

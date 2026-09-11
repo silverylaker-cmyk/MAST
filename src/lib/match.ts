@@ -111,7 +111,7 @@ export function segmentToken(token: string): Allergen[] {
       for (const name of [a.name_ko, ...(a.aliases ?? [])]) {
         const k = normalize(name);
         // '진드기' 같은 포괄 명칭은 다른 이름의 일부로 자주 나오므로 분절 사전에서 제외
-        if (k.length >= 2 && /[가-힣]/.test(k) && k !== '진드기') segKeys.push({ key: k, allergen: a });
+        if (k.length >= 1 && /[가-힣]/.test(k) && k !== '진드기') segKeys.push({ key: k, allergen: a });
       }
     }
     segKeys.sort((p, q) => q.key.length - p.key.length);
@@ -125,7 +125,9 @@ export function segmentToken(token: string): Allergen[] {
       const at = norm.indexOf(key, from);
       if (at < 0) break;
       const free = !taken.slice(at, at + key.length).some(Boolean);
-      if (free) {
+      // 한 글자 이름(쌀·굴·게·콩…)은 남은 조각 전체와 딱 맞을 때만 (다른 이름의 일부일 수 있음)
+      const whole = key.length > 1 || ((at === 0 || taken[at - 1]) && (at + 1 >= norm.length || taken[at + 1]));
+      if (free && whole) {
         for (let i = at; i < at + key.length; i++) taken[i] = true;
         found.push({ at, allergen });
       }

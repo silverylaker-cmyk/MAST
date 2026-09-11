@@ -109,6 +109,8 @@ test('segmentToken splits comma-less tokens', () => {
   assert.deepEqual(segmentToken('저장 진드기 T 조개').map((a) => a.name_en), ['T. putrescentiae', 'Clam']);
   assert.deepEqual(segmentToken('집먼지 진드기 Dp 조개').map((a) => a.name_en), ['D. pteronyssinus', 'Clam']);
   assert.deepEqual(segmentToken('조개'), []);
+  assert.deepEqual(segmentToken('쌀 밀가루').map((a) => a.name_ko), ['쌀', '밀가루']);
+  assert.deepEqual(segmentToken('새우 조개').map((a) => a.name_ko), ['새우', '조개']);
 });
 
 test('parseLines splits comma-less row text', () => {
@@ -121,4 +123,18 @@ test('parseLines splits comma-less row text', () => {
   assert.ok(names.includes(115)); // Clam
   assert.ok(names.includes(7)); // T. putrescentiae
   assert.ok(names.includes(1)); // House dust
+});
+
+test('readTotalIgE picks the number under the 결과 column', () => {
+  const w = (text: string, x0: number, y0: number) => ({ text, x0, y0, x1: x0 + text.length * 20, y1: y0 + 30 });
+  const r = parseLines([
+    { text: '0.00 ~ 0.34 0 없거나 아주 낮음', x0: 20, y0: 70, x1: 300, y1: 90 },
+    { text: '≥100.00 6 매우 높음', x0: 20, y0: 150, x1: 300, y1: 166 },
+    { text: 'IgE', x0: 20, y0: 250, x1: 60, y1: 270 },
+    { text: '14000 Interpretation 결과 임상적 의의', x0: 20, y0: 280, x1: 900, y1: 300, words: [w('14000', 20, 280), w('Interpretation', 150, 280), w('결과', 300, 280), w('임상적', 400, 280)] },
+    { text: '0 3100 정상치 총 1096가 증가', x0: 20, y0: 310, x1: 900, y1: 330, words: [w('0', 20, 310), w('3100', 60, 310), w('정상치', 150, 310), w('1096가', 500, 310)] },
+    { text: '212 아토피피부염', x0: 290, y0: 340, x1: 900, y1: 360, words: [w('212', 300, 340), w('아토피피부염', 400, 340)] },
+    { text: '>100 증가 총 196가', x0: 20, y0: 370, x1: 900, y1: 390, words: [w('>100', 20, 370), w('증가', 150, 370), w('196가', 500, 370)] },
+  ]);
+  assert.equal(r.totalIgE, 212);
 });

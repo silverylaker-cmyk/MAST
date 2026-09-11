@@ -83,6 +83,58 @@ function joinHangul(s: string): string {
   return s.replace(/(?<=[가-힣])\s+(?=[가-힣])/g, '');
 }
 
+/**
+ * 총 IgE 값 읽기. "결과" 열(헤더 단어 위치) 아래에 있는 숫자 단어를 고른다.
+ * "≤100"/">100"이 "3100", "<100" 등으로 읽히므로 위치로 구분한다.
+ */
+function readTotalIgE(lines: OcrLine[], totalY: number): number | null {
+  const section = lines.filter((ln) => ln.y0 >= totalY);
+  if (!section.length) return null;
+  if (!section.some((ln) => ln.words && ln.words.length)) {
+    // 단어 좌표가 없으면: 100이 아닌 첫 정수
+    for (const ln of section) {
+      const nums = ln.text.match(/(?<![\d.])(\d{1,5})(?![\d.])/g);
+      const c = nums?.map(Number).filter((n) => n !== 100);
+      if (c && c.length) return c[0];
+    }
+    return null;
+  }
+  const width = Math.max(...lines.map((l) => l.x1));
+  // "결과" 헤더 단어의 x 범위
+  let colX0 = width * 0.2;
+  let colX1 = width * 0.45;
+  let headerY = -1;
+  for (const ln of section) {
+    const w = ln.words?.find((x) => /결과/.test(x.text));
+    if (w) {
+      colX0 = w.x0 - width * 0.06;
+      colX1 = w.x1 + width * 0.06;
+      headerY = ln.y1;
+      break;
+    }
+    if (/Interpretation|임상적/.test(ln.text)) headerY = ln.y1;
+  }
+  const cands: { n: number; d: number }[] = [];
+  const colC = (colX0 + colX1) / 2;
+  for (const ln of section) {
+    if (headerY >= 0 && ln.y0 < headerY - 5) continue;
+    if (/Interpretation|임상적/.test(ln.text)) continue;
+    const words = ln.words && ln.words.length ? ln.words : [{ text: ln.text, x0: ln.x0, y0: ln.y0, x1: ln.x1, y1: ln.y1 }];
+    for (let i = 0; i < words.length; i++) {
+      const t = words[i].text.replace(/[^\d]/g, '');
+      if (!/^\d{1,5}$/.test(t)) continue;
+      if (/[≤≥<>=S]/.test(words[i].text)) continue; // ≤100, >100
+      if (t === '100' || (t.length === 4 && t.endsWith('100'))) continue; // "3100" = ≤100 오독
+      const xc = (words[i].x0 + words[i].x1) / 2;
+      if (xc < colX0 || xc > colX1) continue;
+      cands.push({ n: Number(t), d: Math.abs(xc - colC) });
+    }
+  }
+  if (!cands.length) return null;
+  cands.sort((a, b) => a.d - b.d);
+  return cands[0].n;
+}
+
 function median(xs: number[]): number {
   const s = [...xs].sort((a, b) => a - b);
   return s[Math.floor(s.length / 2)];
@@ -143,17 +195,7 @@ export function parseLines(lines: OcrLine[], separators: number[] = []): ParsedR
   // 1) 총 IgE 구간: 표식이 있는 첫 줄부터 아래는 항원 표가 아니다
   const totalMarks = clean.filter((ln) => TOTAL_MARK.test(ln.text));
   const totalY = totalMarks.length ? Math.min(...totalMarks.map((l) => l.y0)) - 5 : Infinity;
-  let totalIgE: number | null = null;
-  for (const ln of clean) {
-    if (ln.y0 < totalY) continue;
-    const nums = ln.text.match(/(?<![\d.])(\d{2,5})(?![\d.])/g);
-    if (!nums) continue;
-    const cand = nums.map(Number).filter((n) => n !== 100);
-    if (cand.length) {
-      totalIgE = cand[0];
-      break;
-    }
-  }
+  const totalIgE = readTotalIgE(clean, totalY);
 
   const table = clean.filter((ln) => ln.y0 < totalY);
   const minX = table.length ? Math.min(...table.map((l) => l.x0)) : 0;
