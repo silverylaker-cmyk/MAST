@@ -46,17 +46,71 @@ export function S1Diagnosis({ d }: { d: SlideData }) {
 }
 
 /* 2. 질병 모델 한 줄 평 */
+const BASE = import.meta.env.BASE_URL;
+
+/** 감염 vs 과민반응 비교 그림. 가운데 선이 왼쪽으로 밀리며 과민반응(오른쪽) 패널이 커진다 */
+function CompareImage({ width, height }: { width: number; height: number }) {
+  const r = useReveal();
+  // 0~40프레임: 가운데, 40~110프레임: 왼쪽으로, 이후 유지. 살짝 흔들리며 계속 밀리는 느낌
+  const move = easeOut(r(40, 70));
+  const pulse = easeOut(r(110, 40));
+  const divider = width * (0.5 - 0.22 * move - 0.02 * pulse);
+  const fadeIn = easeOut(r(5, 20));
+  return (
+    <div style={{ position: 'relative', width, height, overflow: 'hidden', borderRadius: 24, opacity: fadeIn, flexShrink: 0 }}>
+      <img
+        src={`${BASE}images/02-left.jpg`}
+        alt=""
+        style={{ position: 'absolute', left: 0, top: 0, width: width * 0.5, height, objectFit: 'cover', objectPosition: 'left center' }}
+      />
+      <div style={{ position: 'absolute', left: divider, top: 0, right: 0, height, overflow: 'hidden' }}>
+        <img
+          src={`${BASE}images/02-right.jpg`}
+          alt=""
+          style={{ width: '100%', height: '100%', objectFit: 'cover', objectPosition: 'right center' }}
+        />
+      </div>
+      <div
+        style={{
+          position: 'absolute',
+          left: divider - 3,
+          top: 0,
+          width: 6,
+          height,
+          background: '#7C8A9B',
+          boxShadow: `${-14 * move}px 0 22px rgba(232,93,4,${0.35 * move})`,
+        }}
+      />
+      {/* 밀리는 방향 화살표 */}
+      <div
+        style={{
+          position: 'absolute',
+          left: divider - 70,
+          top: 24,
+          fontSize: 48,
+          fontWeight: 900,
+          color: '#E85D04',
+          opacity: move * (1 - pulse * 0.4),
+          transform: `translateX(${-18 * pulse}px)`,
+        }}
+      >
+        ◀
+      </div>
+    </div>
+  );
+}
+
 export function S2Model() {
   const r = useReveal();
   const a = easeOut(r(10, 20));
   const b = easeOut(r(40, 20));
-  const c = useRise(80, 24);
-  const img = useRise(5, 20);
+  const c = useRise(90, 24);
+  const d = useRise(125, 24);
   return (
     <Frame>
       <Title>알레르기 비염은 어떤 병인가요?</Title>
       <div style={{ display: 'flex', gap: 50, flex: 1, alignItems: 'center', minHeight: 0 }}>
-        <Illust src="02-infection-vs-allergy.jpg" fade="right" style={{ width: 1060, height: 596, flexShrink: 0, marginLeft: -40, ...img }} />
+        <CompareImage width={940} height={528} />
         <div style={{ flex: 1, display: 'flex', flexDirection: 'column', gap: 34 }}>
           <div style={{ opacity: a, transform: `translateX(${(1 - a) * 40}px)` }}>
             <div style={{ fontSize: 40, fontWeight: 900, color: COLORS.sub, textDecoration: 'line-through' }}>감염 ✗</div>
@@ -74,22 +128,25 @@ export function S2Model() {
       </div>
       <div
         style={{
-          marginTop: 24,
+          marginTop: 18,
           display: 'flex',
           alignItems: 'center',
           gap: 28,
-          padding: '18px 34px',
+          padding: '14px 34px',
           background: COLORS.beige,
           borderRadius: 24,
-          fontSize: 38,
+          fontSize: 36,
           fontWeight: 900,
           ...c,
         }}
       >
-        <Illust src="02b-control-not-cure.jpg" style={{ width: 130, height: 130, borderRadius: 18 }} />
+        <Illust src="02b-control-not-cure.jpg" style={{ width: 110, height: 110, borderRadius: 18 }} />
         <div>
           그래서 목표는 <Em>완치</Em>가 아니라 <Em color="#D62828">잘 조절하는 것</Em>입니다
         </div>
+      </div>
+      <div style={{ marginTop: 14, fontSize: 30, fontWeight: 700, color: '#A4161A', textAlign: 'center', ...d }}>
+        조절하지 않으면 귀, 목을 거쳐 심장과 폐까지 번집니다.
       </div>
     </Frame>
   );
@@ -479,7 +536,7 @@ export function S9Future() {
 
 export const SLIDES: { key: string; title: string; render: (d: SlideData) => React.ReactNode; frames: number }[] = [
   { key: 'diagnosis', title: '진단', render: (d) => <S1Diagnosis d={d} />, frames: 90 },
-  { key: 'model', title: '질병 모델', render: () => <S2Model />, frames: 130 },
+  { key: 'model', title: '질병 모델', render: () => <S2Model />, frames: 170 },
   { key: 'report', title: '결과지', render: (d) => <S3Report d={d} />, frames: 60 },
   { key: 'allergens', title: '원인 항원', render: (d) => <S4Allergens d={d} />, frames: 150 },
   { key: 'avoid', title: '회피요법', render: (d) => <S5Avoid d={d} />, frames: 150 },
