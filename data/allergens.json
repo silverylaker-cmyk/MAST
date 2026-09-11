@@ -9,7 +9,8 @@
   "season": null,
   "component": false,
   "cross_reactive": false,
-  "sample_class": null
+  "sample_class": null,
+  "family": "집먼지"
  },
  {
   "no": 2,
@@ -21,7 +22,8 @@
   "season": null,
   "component": false,
   "cross_reactive": false,
-  "sample_class": 6
+  "sample_class": 6,
+  "family": "집먼지진드기"
  },
  {
   "no": 3,
@@ -33,7 +35,8 @@
   "season": null,
   "component": true,
   "cross_reactive": false,
-  "sample_class": 0
+  "sample_class": 0,
+  "family": "집먼지진드기"
  },
  {
   "no": 4,
@@ -45,7 +48,8 @@
   "season": null,
   "component": false,
   "cross_reactive": false,
-  "sample_class": 6
+  "sample_class": 6,
+  "family": "집먼지진드기"
  },
  {
   "no": 5,
@@ -57,7 +61,8 @@
   "season": null,
   "component": true,
   "cross_reactive": false,
-  "sample_class": 6
+  "sample_class": 6,
+  "family": "집먼지진드기"
  },
  {
   "no": 6,
@@ -69,7 +74,8 @@
   "season": null,
   "component": false,
   "cross_reactive": false,
-  "sample_class": 4
+  "sample_class": 4,
+  "family": "수중다리진드기"
  },
  {
   "no": 7,
@@ -81,7 +87,8 @@
   "season": null,
   "component": false,
   "cross_reactive": false,
-  "sample_class": 2
+  "sample_class": 2,
+  "family": "긴털가루진드기"
  },
  {
   "no": 8,
@@ -93,7 +100,8 @@
   "season": null,
   "component": false,
   "cross_reactive": false,
-  "sample_class": 0
+  "sample_class": 0,
+  "family": "페니실리움"
  },
  {
   "no": 9,
@@ -105,7 +113,8 @@
   "season": null,
   "component": false,
   "cross_reactive": false,
-  "sample_class": 0
+  "sample_class": 0,
+  "family": "클라도스포리움"
  },
  {
   "no": 10,
@@ -117,7 +126,8 @@
   "season": null,
   "component": false,
   "cross_reactive": false,
-  "sample_class": 0
+  "sample_class": 0,
+  "family": "아스페르길루스"
  },
  {
   "no": 11,
@@ -129,7 +139,8 @@
   "season": null,
   "component": true,
   "cross_reactive": false,
-  "sample_class": 0
+  "sample_class": 0,
+  "family": "아스페르길루스"
  },
  {
   "no": 12,
@@ -141,7 +152,8 @@
   "season": null,
   "component": false,
   "cross_reactive": false,
-  "sample_class": 0
+  "sample_class": 0,
+  "family": "칸디다"
  },
  {
   "no": 13,
@@ -153,7 +165,8 @@
   "season": null,
   "component": false,
   "cross_reactive": false,
-  "sample_class": 1
+  "sample_class": 1,
+  "family": "알터나리아"
  },
  {
   "no": 14,
@@ -165,7 +178,8 @@
   "season": null,
   "component": true,
   "cross_reactive": false,
-  "sample_class": 0
+  "sample_class": 0,
+  "family": "알터나리아"
  },
  {
   "no": 15,
@@ -177,7 +191,8 @@
   "season": null,
   "component": false,
   "cross_reactive": false,
-  "sample_class": 0
+  "sample_class": 0,
+  "family": "리조푸스"
  },
  {
   "no": 16,
@@ -189,7 +204,8 @@
   "season": null,
   "component": false,
   "cross_reactive": false,
-  "sample_class": 1
+  "sample_class": 1,
+  "family": "고양이"
  },
  {
   "no": 17,
@@ -201,7 +217,8 @@
   "season": null,
   "component": true,
   "cross_reactive": false,
-  "sample_class": 0
+  "sample_class": 0,
+  "family": "고양이"
  },
  {
   "no": 18,
@@ -213,7 +230,8 @@
   "season": null,
   "component": false,
   "cross_reactive": false,
-  "sample_class": 0
+  "sample_class": 0,
+  "family": "말"
  },
  {
   "no": 19,
@@ -225,7 +243,8 @@
   "season": null,
   "component": false,
   "cross_reactive": false,
-  "sample_class": 0
+  "sample_class": 0,
+  "family": "개"
  },
  {
   "no": 20,
@@ -237,7 +256,8 @@
   "season": null,
   "component": true,
   "cross_reactive": false,
-  "sample_class": 0
+  "sample_class": 0,
+  "family": "개"
  },
  {
   "no": 21,
@@ -249,7 +269,8 @@
   "season": null,
   "component": false,
   "cross_reactive": false,
-  "sample_class": 0
+  "sample_class": 0,
+  "family": "기니피그"
  },
  {
   "no": 22,
@@ -261,7 +282,8 @@
   "season": null,
   "component": false,
   "cross_reactive": false,
-  "sample_class": 0
+  "sample_class": 0,
+  "family": "쥐"
  },
  {
   "no": 23,
@@ -273,7 +295,8 @@
   "season": null,
   "component": false,
   "cross_reactive": false,
-  "sample_class": 0
+  "sample_class": 0,
+  "family": "양모"
  },
  {
   "no": 24,
@@ -285,7 +308,8 @@
   "season": null,
   "component": false,
   "cross_reactive": false,
-  "sample_class": 0
+  "sample_class": 0,
+  "family": "토끼"
  },
  {
   "no": 25,
@@ -297,7 +321,8 @@
   "season": null,
   "component": false,
   "cross_reactive": false,
-  "sample_class": 0
+  "sample_class": 0,
+  "family": "햄스터"
  },
  {
   "no": 26,
@@ -309,7 +334,8 @@
   "season": "summer",
   "component": false,
   "cross_reactive": false,
-  "sample_class": 3
+  "sample_class": 3,
+  "family": "버뮤다잔디"
  },
  {
   "no": 27,
@@ -321,7 +347,8 @@
   "season": "summer",
   "component": false,
   "cross_reactive": false,
-  "sample_class": 0
+  "sample_class": 0,
+  "family": "향기풀"
  },
  {
   "no": 28,
@@ -333,7 +360,8 @@
   "season": "summer",
   "component": false,
   "cross_reactive": false,
-  "sample_class": 1
+  "sample_class": 1,
+  "family": "오리새"
  },
  {
   "no": 29,
@@ -345,7 +373,8 @@
   "season": "summer",
   "component": false,
   "cross_reactive": false,
-  "sample_class": 1
+  "sample_class": 1,
+  "family": "갈대"
  },
  {
   "no": 30,
@@ -357,7 +386,8 @@
   "season": "summer",
   "component": false,
   "cross_reactive": false,
-  "sample_class": 1
+  "sample_class": 1,
+  "family": "윗트그래스"
  },
  {
   "no": 31,
@@ -369,7 +399,8 @@
   "season": "summer",
   "component": false,
   "cross_reactive": false,
-  "sample_class": 1
+  "sample_class": 1,
+  "family": "큰조아재비"
  },
  {
   "no": 32,
@@ -381,7 +412,8 @@
   "season": "summer",
   "component": true,
   "cross_reactive": false,
-  "sample_class": 0
+  "sample_class": 0,
+  "family": "큰조아재비"
  },
  {
   "no": 33,
@@ -393,7 +425,8 @@
   "season": "summer",
   "component": true,
   "cross_reactive": false,
-  "sample_class": 0
+  "sample_class": 0,
+  "family": "큰조아재비"
  },
  {
   "no": 34,
@@ -405,7 +438,8 @@
   "season": "summer",
   "component": true,
   "cross_reactive": false,
-  "sample_class": 0
+  "sample_class": 0,
+  "family": "큰조아재비"
  },
  {
   "no": 35,
@@ -417,7 +451,8 @@
   "season": "summer",
   "component": false,
   "cross_reactive": false,
-  "sample_class": 1
+  "sample_class": 1,
+  "family": "호밀"
  },
  {
   "no": 36,
@@ -429,7 +464,8 @@
   "season": "summer",
   "component": false,
   "cross_reactive": false,
-  "sample_class": 2
+  "sample_class": 2,
+  "family": "호밀풀"
  },
  {
   "no": 37,
@@ -441,7 +477,8 @@
   "season": "spring",
   "component": false,
   "cross_reactive": false,
-  "sample_class": 6
+  "sample_class": 6,
+  "family": "오리나무"
  },
  {
   "no": 38,
@@ -453,7 +490,8 @@
   "season": "spring",
   "component": true,
   "cross_reactive": true,
-  "sample_class": 2
+  "sample_class": 2,
+  "family": "오리나무"
  },
  {
   "no": 39,
@@ -465,7 +503,8 @@
   "season": "spring",
   "component": false,
   "cross_reactive": false,
-  "sample_class": 6
+  "sample_class": 6,
+  "family": "자작나무"
  },
  {
   "no": 40,
@@ -477,7 +516,8 @@
   "season": "spring",
   "component": true,
   "cross_reactive": true,
-  "sample_class": 6
+  "sample_class": 6,
+  "family": "자작나무"
  },
  {
   "no": 41,
@@ -489,7 +529,8 @@
   "season": "spring",
   "component": true,
   "cross_reactive": false,
-  "sample_class": 6
+  "sample_class": 6,
+  "family": "자작나무"
  },
  {
   "no": 42,
@@ -501,7 +542,8 @@
   "season": "spring",
   "component": false,
   "cross_reactive": false,
-  "sample_class": 6
+  "sample_class": 6,
+  "family": "개암나무"
  },
  {
   "no": 43,
@@ -513,7 +555,8 @@
   "season": "spring",
   "component": false,
   "cross_reactive": false,
-  "sample_class": 4
+  "sample_class": 4,
+  "family": "참나무"
  },
  {
   "no": 44,
@@ -525,7 +568,8 @@
   "season": "spring",
   "component": true,
   "cross_reactive": false,
-  "sample_class": 4
+  "sample_class": 4,
+  "family": "참나무"
  },
  {
   "no": 45,
@@ -537,7 +581,8 @@
   "season": "spring",
   "component": false,
   "cross_reactive": false,
-  "sample_class": 1
+  "sample_class": 1,
+  "family": "올리브나무"
  },
  {
   "no": 46,
@@ -549,7 +594,8 @@
   "season": "spring",
   "component": true,
   "cross_reactive": false,
-  "sample_class": 0
+  "sample_class": 0,
+  "family": "올리브나무"
  },
  {
   "no": 47,
@@ -561,7 +607,8 @@
   "season": "spring",
   "component": false,
   "cross_reactive": false,
-  "sample_class": 2
+  "sample_class": 2,
+  "family": "플라타너스"
  },
  {
   "no": 48,
@@ -573,7 +620,8 @@
   "season": "spring",
   "component": true,
   "cross_reactive": false,
-  "sample_class": 0
+  "sample_class": 0,
+  "family": "플라타너스"
  },
  {
   "no": 49,
@@ -585,7 +633,8 @@
   "season": "spring",
   "component": false,
   "cross_reactive": false,
-  "sample_class": 1
+  "sample_class": 1,
+  "family": "버드나무"
  },
  {
   "no": 50,
@@ -597,7 +646,8 @@
   "season": "spring",
   "component": false,
   "cross_reactive": false,
-  "sample_class": 2
+  "sample_class": 2,
+  "family": "미루나무"
  },
  {
   "no": 51,
@@ -609,7 +659,8 @@
   "season": "spring",
   "component": false,
   "cross_reactive": false,
-  "sample_class": 2
+  "sample_class": 2,
+  "family": "물푸레나무"
  },
  {
   "no": 52,
@@ -621,7 +672,8 @@
   "season": "spring",
   "component": false,
   "cross_reactive": false,
-  "sample_class": 2
+  "sample_class": 2,
+  "family": "백송"
  },
  {
   "no": 53,
@@ -633,7 +685,8 @@
   "season": "spring",
   "component": false,
   "cross_reactive": false,
-  "sample_class": 1
+  "sample_class": 1,
+  "family": "삼나무"
  },
  {
   "no": 54,
@@ -645,7 +698,8 @@
   "season": "spring",
   "component": false,
   "cross_reactive": false,
-  "sample_class": 2
+  "sample_class": 2,
+  "family": "아카시아"
  },
  {
   "no": 55,
@@ -657,7 +711,8 @@
   "season": "spring",
   "component": false,
   "cross_reactive": false,
-  "sample_class": 0
+  "sample_class": 0,
+  "family": "느릅나무"
  },
  {
   "no": 56,
@@ -669,7 +724,8 @@
   "season": "autumn",
   "component": false,
   "cross_reactive": false,
-  "sample_class": 1
+  "sample_class": 1,
+  "family": "돼지풀"
  },
  {
   "no": 57,
@@ -681,7 +737,8 @@
   "season": "autumn",
   "component": false,
   "cross_reactive": false,
-  "sample_class": 3
+  "sample_class": 3,
+  "family": "쑥"
  },
  {
   "no": 58,
@@ -693,7 +750,8 @@
   "season": "autumn",
   "component": false,
   "cross_reactive": false,
-  "sample_class": 0
+  "sample_class": 0,
+  "family": "불란서국화"
  },
  {
   "no": 59,
@@ -705,7 +763,8 @@
   "season": "autumn",
   "component": false,
   "cross_reactive": false,
-  "sample_class": 1
+  "sample_class": 1,
+  "family": "민들레"
  },
  {
   "no": 60,
@@ -717,7 +776,8 @@
   "season": "autumn",
   "component": false,
   "cross_reactive": false,
-  "sample_class": 0
+  "sample_class": 0,
+  "family": "질경이"
  },
  {
   "no": 61,
@@ -729,7 +789,8 @@
   "season": "autumn",
   "component": true,
   "cross_reactive": false,
-  "sample_class": 0
+  "sample_class": 0,
+  "family": "질경이"
  },
  {
   "no": 62,
@@ -741,7 +802,8 @@
   "season": "autumn",
   "component": false,
   "cross_reactive": false,
-  "sample_class": 0
+  "sample_class": 0,
+  "family": "러시아엉겅퀴"
  },
  {
   "no": 63,
@@ -753,7 +815,8 @@
   "season": "autumn",
   "component": false,
   "cross_reactive": false,
-  "sample_class": 0
+  "sample_class": 0,
+  "family": "미역취"
  },
  {
   "no": 64,
@@ -765,7 +828,8 @@
   "season": "autumn",
   "component": false,
   "cross_reactive": false,
-  "sample_class": 0
+  "sample_class": 0,
+  "family": "털비름"
  },
  {
   "no": 65,
@@ -777,7 +841,8 @@
   "season": "autumn",
   "component": false,
   "cross_reactive": false,
-  "sample_class": 2
+  "sample_class": 2,
+  "family": "한삼덩굴"
  },
  {
   "no": 66,
@@ -789,7 +854,8 @@
   "season": "autumn",
   "component": false,
   "cross_reactive": false,
-  "sample_class": 1
+  "sample_class": 1,
+  "family": "명아주"
  },
  {
   "no": 67,
@@ -801,7 +867,8 @@
   "season": "autumn",
   "component": false,
   "cross_reactive": false,
-  "sample_class": 2
+  "sample_class": 2,
+  "family": "도꼬마리"
  },
  {
   "no": 68,
@@ -813,7 +880,8 @@
   "season": null,
   "component": false,
   "cross_reactive": false,
-  "sample_class": 0
+  "sample_class": 0,
+  "family": "계란"
  },
  {
   "no": 69,
@@ -825,7 +893,8 @@
   "season": null,
   "component": true,
   "cross_reactive": false,
-  "sample_class": 0
+  "sample_class": 0,
+  "family": "계란"
  },
  {
   "no": 70,
@@ -837,7 +906,8 @@
   "season": null,
   "component": false,
   "cross_reactive": false,
-  "sample_class": 0
+  "sample_class": 0,
+  "family": "닭고기"
  },
  {
   "no": 71,
@@ -849,7 +919,8 @@
   "season": null,
   "component": false,
   "cross_reactive": false,
-  "sample_class": 0
+  "sample_class": 0,
+  "family": "계란"
  },
  {
   "no": 72,
@@ -861,7 +932,8 @@
   "season": null,
   "component": false,
   "cross_reactive": false,
-  "sample_class": 1
+  "sample_class": 1,
+  "family": "밀가루"
  },
  {
   "no": 73,
@@ -873,7 +945,8 @@
   "season": null,
   "component": true,
   "cross_reactive": false,
-  "sample_class": 0
+  "sample_class": 0,
+  "family": "밀가루"
  },
  {
   "no": 74,
@@ -885,7 +958,8 @@
   "season": null,
   "component": true,
   "cross_reactive": false,
-  "sample_class": 0
+  "sample_class": 0,
+  "family": "밀가루"
  },
  {
   "no": 75,
@@ -897,7 +971,8 @@
   "season": null,
   "component": true,
   "cross_reactive": false,
-  "sample_class": 0
+  "sample_class": 0,
+  "family": "밀가루"
  },
  {
   "no": 76,
@@ -909,7 +984,8 @@
   "season": null,
   "component": false,
   "cross_reactive": false,
-  "sample_class": 2
+  "sample_class": 2,
+  "family": "보리"
  },
  {
   "no": 77,
@@ -921,7 +997,8 @@
   "season": null,
   "component": false,
   "cross_reactive": false,
-  "sample_class": 3
+  "sample_class": 3,
+  "family": "옥수수"
  },
  {
   "no": 78,
@@ -933,7 +1010,8 @@
   "season": null,
   "component": false,
   "cross_reactive": false,
-  "sample_class": 1
+  "sample_class": 1,
+  "family": "쌀"
  },
  {
   "no": 79,
@@ -945,7 +1023,8 @@
   "season": null,
   "component": false,
   "cross_reactive": false,
-  "sample_class": 0
+  "sample_class": 0,
+  "family": "참깨"
  },
  {
   "no": 80,
@@ -957,7 +1036,8 @@
   "season": null,
   "component": false,
   "cross_reactive": false,
-  "sample_class": 1
+  "sample_class": 1,
+  "family": "메밀"
  },
  {
   "no": 81,
@@ -969,7 +1049,8 @@
   "season": null,
   "component": true,
   "cross_reactive": false,
-  "sample_class": 1
+  "sample_class": 1,
+  "family": "메밀"
  },
  {
   "no": 82,
@@ -981,7 +1062,8 @@
   "season": null,
   "component": true,
   "cross_reactive": false,
-  "sample_class": 0
+  "sample_class": 0,
+  "family": "메밀"
  },
  {
   "no": 83,
@@ -993,7 +1075,8 @@
   "season": null,
   "component": false,
   "cross_reactive": false,
-  "sample_class": 0
+  "sample_class": 0,
+  "family": "땅콩"
  },
  {
   "no": 84,
@@ -1005,7 +1088,8 @@
   "season": null,
   "component": true,
   "cross_reactive": false,
-  "sample_class": 0
+  "sample_class": 0,
+  "family": "땅콩"
  },
  {
   "no": 85,
@@ -1017,7 +1101,8 @@
   "season": null,
   "component": true,
   "cross_reactive": false,
-  "sample_class": 0
+  "sample_class": 0,
+  "family": "땅콩"
  },
  {
   "no": 86,
@@ -1029,7 +1114,8 @@
   "season": null,
   "component": true,
   "cross_reactive": false,
-  "sample_class": 0
+  "sample_class": 0,
+  "family": "땅콩"
  },
  {
   "no": 87,
@@ -1041,7 +1127,8 @@
   "season": null,
   "component": true,
   "cross_reactive": true,
-  "sample_class": 4
+  "sample_class": 4,
+  "family": "땅콩"
  },
  {
   "no": 88,
@@ -1053,7 +1140,8 @@
   "season": null,
   "component": true,
   "cross_reactive": false,
-  "sample_class": 0
+  "sample_class": 0,
+  "family": "땅콩"
  },
  {
   "no": 89,
@@ -1065,7 +1153,8 @@
   "season": null,
   "component": false,
   "cross_reactive": false,
-  "sample_class": 0
+  "sample_class": 0,
+  "family": "콩"
  },
  {
   "no": 90,
@@ -1077,7 +1166,8 @@
   "season": null,
   "component": true,
   "cross_reactive": true,
-  "sample_class": 2
+  "sample_class": 2,
+  "family": "콩"
  },
  {
   "no": 91,
@@ -1089,7 +1179,8 @@
   "season": null,
   "component": true,
   "cross_reactive": false,
-  "sample_class": 0
+  "sample_class": 0,
+  "family": "콩"
  },
  {
   "no": 92,
@@ -1101,7 +1192,8 @@
   "season": null,
   "component": true,
   "cross_reactive": false,
-  "sample_class": 0
+  "sample_class": 0,
+  "family": "콩"
  },
  {
   "no": 93,
@@ -1113,7 +1205,8 @@
   "season": null,
   "component": false,
   "cross_reactive": false,
-  "sample_class": 2
+  "sample_class": 2,
+  "family": "헤이즐넛"
  },
  {
   "no": 94,
@@ -1125,7 +1218,8 @@
   "season": null,
   "component": true,
   "cross_reactive": true,
-  "sample_class": 0
+  "sample_class": 0,
+  "family": "헤이즐넛"
  },
  {
   "no": 95,
@@ -1137,7 +1231,8 @@
   "season": null,
   "component": true,
   "cross_reactive": false,
-  "sample_class": 0
+  "sample_class": 0,
+  "family": "헤이즐넛"
  },
  {
   "no": 96,
@@ -1149,7 +1244,8 @@
   "season": null,
   "component": false,
   "cross_reactive": false,
-  "sample_class": 3
+  "sample_class": 3,
+  "family": "아몬드"
  },
  {
   "no": 97,
@@ -1161,7 +1257,8 @@
   "season": null,
   "component": false,
   "cross_reactive": false,
-  "sample_class": 0
+  "sample_class": 0,
+  "family": "잣"
  },
  {
   "no": 98,
@@ -1173,7 +1270,8 @@
   "season": null,
   "component": false,
   "cross_reactive": false,
-  "sample_class": 1
+  "sample_class": 1,
+  "family": "해바라기씨"
  },
  {
   "no": 99,
@@ -1185,7 +1283,8 @@
   "season": null,
   "component": false,
   "cross_reactive": false,
-  "sample_class": 0
+  "sample_class": 0,
+  "family": "호두"
  },
  {
   "no": 100,
@@ -1197,7 +1296,8 @@
   "season": null,
   "component": true,
   "cross_reactive": false,
-  "sample_class": 0
+  "sample_class": 0,
+  "family": "호두"
  },
  {
   "no": 101,
@@ -1209,7 +1309,8 @@
   "season": null,
   "component": true,
   "cross_reactive": false,
-  "sample_class": 0
+  "sample_class": 0,
+  "family": "호두"
  },
  {
   "no": 102,
@@ -1221,7 +1322,8 @@
   "season": null,
   "component": false,
   "cross_reactive": false,
-  "sample_class": 0
+  "sample_class": 0,
+  "family": "밤"
  },
  {
   "no": 103,
@@ -1233,7 +1335,8 @@
   "season": null,
   "component": false,
   "cross_reactive": false,
-  "sample_class": 0
+  "sample_class": 0,
+  "family": "호밀"
  },
  {
   "no": 104,
@@ -1245,7 +1348,8 @@
   "season": null,
   "component": false,
   "cross_reactive": false,
-  "sample_class": 0
+  "sample_class": 0,
+  "family": "강낭콩"
  },
  {
   "no": 105,
@@ -1257,7 +1361,8 @@
   "season": null,
   "component": false,
   "cross_reactive": false,
-  "sample_class": 0
+  "sample_class": 0,
+  "family": "브라질너트"
  },
  {
   "no": 106,
@@ -1269,7 +1374,8 @@
   "season": null,
   "component": false,
   "cross_reactive": false,
-  "sample_class": 0
+  "sample_class": 0,
+  "family": "코코넛"
  },
  {
   "no": 107,
@@ -1281,7 +1387,8 @@
   "season": null,
   "component": false,
   "cross_reactive": false,
-  "sample_class": 0
+  "sample_class": 0,
+  "family": "캐슈넛"
  },
  {
   "no": 108,
@@ -1293,7 +1400,8 @@
   "season": null,
   "component": false,
   "cross_reactive": false,
-  "sample_class": 0
+  "sample_class": 0,
+  "family": "마카다미아너트"
  },
  {
   "no": 109,
@@ -1305,7 +1413,8 @@
   "season": null,
   "component": false,
   "cross_reactive": false,
-  "sample_class": 1
+  "sample_class": 1,
+  "family": "대구"
  },
  {
   "no": 110,
@@ -1317,7 +1426,8 @@
   "season": null,
   "component": true,
   "cross_reactive": false,
-  "sample_class": 0
+  "sample_class": 0,
+  "family": "대구"
  },
  {
   "no": 111,
@@ -1329,7 +1439,8 @@
   "season": null,
   "component": false,
   "cross_reactive": false,
-  "sample_class": 2
+  "sample_class": 2,
+  "family": "게"
  },
  {
   "no": 112,
@@ -1341,7 +1452,8 @@
   "season": null,
   "component": false,
   "cross_reactive": false,
-  "sample_class": 3
+  "sample_class": 3,
+  "family": "새우"
  },
  {
   "no": 113,
@@ -1353,7 +1465,8 @@
   "season": null,
   "component": true,
   "cross_reactive": false,
-  "sample_class": 1
+  "sample_class": 1,
+  "family": "새우"
  },
  {
   "no": 114,
@@ -1365,7 +1478,8 @@
   "season": null,
   "component": false,
   "cross_reactive": false,
-  "sample_class": 1
+  "sample_class": 1,
+  "family": "굴"
  },
  {
   "no": 115,
@@ -1377,7 +1491,8 @@
   "season": null,
   "component": false,
   "cross_reactive": false,
-  "sample_class": 2
+  "sample_class": 2,
+  "family": "조개"
  },
  {
   "no": 116,
@@ -1389,7 +1504,8 @@
   "season": null,
   "component": false,
   "cross_reactive": false,
-  "sample_class": 0
+  "sample_class": 0,
+  "family": "가리비"
  },
  {
   "no": 117,
@@ -1401,7 +1517,8 @@
   "season": null,
   "component": false,
   "cross_reactive": false,
-  "sample_class": 0
+  "sample_class": 0,
+  "family": "고등어"
  },
  {
   "no": 118,
@@ -1413,7 +1530,8 @@
   "season": null,
   "component": false,
   "cross_reactive": false,
-  "sample_class": 0
+  "sample_class": 0,
+  "family": "가자미"
  },
  {
   "no": 119,
@@ -1425,7 +1543,8 @@
   "season": null,
   "component": false,
   "cross_reactive": false,
-  "sample_class": 0
+  "sample_class": 0,
+  "family": "멸치"
  },
  {
   "no": 120,
@@ -1437,7 +1556,8 @@
   "season": null,
   "component": false,
   "cross_reactive": false,
-  "sample_class": 0
+  "sample_class": 0,
+  "family": "뱀장어"
  },
  {
   "no": 121,
@@ -1449,7 +1569,8 @@
   "season": null,
   "component": false,
   "cross_reactive": false,
-  "sample_class": 0
+  "sample_class": 0,
+  "family": "참치"
  },
  {
   "no": 122,
@@ -1461,7 +1582,8 @@
   "season": null,
   "component": false,
   "cross_reactive": false,
-  "sample_class": 0
+  "sample_class": 0,
+  "family": "연어"
  },
  {
   "no": 123,
@@ -1473,7 +1595,8 @@
   "season": null,
   "component": false,
   "cross_reactive": false,
-  "sample_class": 1
+  "sample_class": 1,
+  "family": "랍스터"
  },
  {
   "no": 124,
@@ -1485,7 +1608,8 @@
   "season": null,
   "component": false,
   "cross_reactive": false,
-  "sample_class": 0
+  "sample_class": 0,
+  "family": "오징어"
  },
  {
   "no": 125,
@@ -1497,7 +1621,8 @@
   "season": null,
   "component": false,
   "cross_reactive": false,
-  "sample_class": 2
+  "sample_class": 2,
+  "family": "토마토"
  },
  {
   "no": 126,
@@ -1509,7 +1634,8 @@
   "season": null,
   "component": false,
   "cross_reactive": false,
-  "sample_class": 2
+  "sample_class": 2,
+  "family": "당근"
  },
  {
   "no": 127,
@@ -1521,7 +1647,8 @@
   "season": null,
   "component": false,
   "cross_reactive": false,
-  "sample_class": 2
+  "sample_class": 2,
+  "family": "감자"
  },
  {
   "no": 128,
@@ -1533,7 +1660,8 @@
   "season": null,
   "component": false,
   "cross_reactive": false,
-  "sample_class": 3
+  "sample_class": 3,
+  "family": "딸기"
  },
  {
   "no": 129,
@@ -1545,7 +1673,8 @@
   "season": null,
   "component": false,
   "cross_reactive": false,
-  "sample_class": 1
+  "sample_class": 1,
+  "family": "양파"
  },
  {
   "no": 130,
@@ -1557,7 +1686,8 @@
   "season": null,
   "component": false,
   "cross_reactive": false,
-  "sample_class": 3
+  "sample_class": 3,
+  "family": "사과"
  },
  {
   "no": 131,
@@ -1569,7 +1699,8 @@
   "season": null,
   "component": true,
   "cross_reactive": true,
-  "sample_class": 0
+  "sample_class": 0,
+  "family": "사과"
  },
  {
   "no": 132,
@@ -1581,7 +1712,8 @@
   "season": null,
   "component": false,
   "cross_reactive": false,
-  "sample_class": 3
+  "sample_class": 3,
+  "family": "키위"
  },
  {
   "no": 133,
@@ -1593,7 +1725,8 @@
   "season": null,
   "component": false,
   "cross_reactive": false,
-  "sample_class": 3
+  "sample_class": 3,
+  "family": "망고"
  },
  {
   "no": 134,
@@ -1605,7 +1738,8 @@
   "season": null,
   "component": false,
   "cross_reactive": false,
-  "sample_class": 3
+  "sample_class": 3,
+  "family": "바나나"
  },
  {
   "no": 135,
@@ -1617,7 +1751,8 @@
   "season": null,
   "component": false,
   "cross_reactive": false,
-  "sample_class": 2
+  "sample_class": 2,
+  "family": "샐러리"
  },
  {
   "no": 136,
@@ -1629,7 +1764,8 @@
   "season": null,
   "component": false,
   "cross_reactive": false,
-  "sample_class": 4
+  "sample_class": 4,
+  "family": "복숭아"
  },
  {
   "no": 137,
@@ -1641,7 +1777,8 @@
   "season": null,
   "component": true,
   "cross_reactive": true,
-  "sample_class": 4
+  "sample_class": 4,
+  "family": "복숭아"
  },
  {
   "no": 138,
@@ -1653,7 +1790,8 @@
   "season": null,
   "component": true,
   "cross_reactive": false,
-  "sample_class": 0
+  "sample_class": 0,
+  "family": "복숭아"
  },
  {
   "no": 139,
@@ -1665,7 +1803,8 @@
   "season": null,
   "component": false,
   "cross_reactive": false,
-  "sample_class": 0
+  "sample_class": 0,
+  "family": "오이"
  },
  {
   "no": 140,
@@ -1677,7 +1816,8 @@
   "season": null,
   "component": false,
   "cross_reactive": false,
-  "sample_class": 0
+  "sample_class": 0,
+  "family": "오렌지"
  },
  {
   "no": 141,
@@ -1689,7 +1829,8 @@
   "season": null,
   "component": false,
   "cross_reactive": false,
-  "sample_class": 1
+  "sample_class": 1,
+  "family": "버섯"
  },
  {
   "no": 142,
@@ -1701,7 +1842,8 @@
   "season": null,
   "component": false,
   "cross_reactive": false,
-  "sample_class": 0
+  "sample_class": 0,
+  "family": "우유"
  },
  {
   "no": 143,
@@ -1713,7 +1855,8 @@
   "season": null,
   "component": true,
   "cross_reactive": false,
-  "sample_class": 0
+  "sample_class": 0,
+  "family": "우유"
  },
  {
   "no": 144,
@@ -1725,7 +1868,8 @@
   "season": null,
   "component": true,
   "cross_reactive": false,
-  "sample_class": 0
+  "sample_class": 0,
+  "family": "우유"
  },
  {
   "no": 145,
@@ -1737,7 +1881,8 @@
   "season": null,
   "component": false,
   "cross_reactive": false,
-  "sample_class": 0
+  "sample_class": 0,
+  "family": "치즈"
  },
  {
   "no": 146,
@@ -1749,7 +1894,8 @@
   "season": null,
   "component": false,
   "cross_reactive": false,
-  "sample_class": 0
+  "sample_class": 0,
+  "family": "벌독"
  },
  {
   "no": 147,
@@ -1761,7 +1907,8 @@
   "season": null,
   "component": true,
   "cross_reactive": false,
-  "sample_class": 0
+  "sample_class": 0,
+  "family": "벌독"
  },
  {
   "no": 148,
@@ -1773,7 +1920,8 @@
   "season": null,
   "component": false,
   "cross_reactive": false,
-  "sample_class": 0
+  "sample_class": 0,
+  "family": "말벌독"
  },
  {
   "no": 149,
@@ -1785,7 +1933,8 @@
   "season": null,
   "component": false,
   "cross_reactive": false,
-  "sample_class": 1
+  "sample_class": 1,
+  "family": "바퀴벌레"
  },
  {
   "no": 150,
@@ -1797,7 +1946,8 @@
   "season": null,
   "component": false,
   "cross_reactive": false,
-  "sample_class": 0
+  "sample_class": 0,
+  "family": "돼지고기"
  },
  {
   "no": 151,
@@ -1809,7 +1959,8 @@
   "season": null,
   "component": true,
   "cross_reactive": false,
-  "sample_class": 0
+  "sample_class": 0,
+  "family": "돼지고기"
  },
  {
   "no": 152,
@@ -1821,7 +1972,8 @@
   "season": null,
   "component": false,
   "cross_reactive": false,
-  "sample_class": 0
+  "sample_class": 0,
+  "family": "소고기"
  },
  {
   "no": 153,
@@ -1833,7 +1985,8 @@
   "season": null,
   "component": true,
   "cross_reactive": false,
-  "sample_class": 0
+  "sample_class": 0,
+  "family": "소고기"
  },
  {
   "no": 154,
@@ -1845,7 +1998,8 @@
   "season": null,
   "component": false,
   "cross_reactive": false,
-  "sample_class": 0
+  "sample_class": 0,
+  "family": "양고기"
  },
  {
   "no": 155,
@@ -1857,7 +2011,8 @@
   "season": null,
   "component": false,
   "cross_reactive": false,
-  "sample_class": 1
+  "sample_class": 1,
+  "family": "효모"
  },
  {
   "no": 156,
@@ -1869,7 +2024,8 @@
   "season": null,
   "component": false,
   "cross_reactive": false,
-  "sample_class": 0
+  "sample_class": 0,
+  "family": "라텍스"
  },
  {
   "no": 157,
@@ -1881,7 +2037,8 @@
   "season": null,
   "component": true,
   "cross_reactive": false,
-  "sample_class": 0
+  "sample_class": 0,
+  "family": "라텍스"
  },
  {
   "no": 158,
@@ -1893,7 +2050,8 @@
   "season": null,
   "component": false,
   "cross_reactive": false,
-  "sample_class": 0
+  "sample_class": 0,
+  "family": "카카오"
  },
  {
   "no": 159,
@@ -1905,7 +2063,8 @@
   "season": null,
   "component": false,
   "cross_reactive": false,
-  "sample_class": 0
+  "sample_class": 0,
+  "family": "누에번데기"
  },
  {
   "no": 160,
@@ -1917,7 +2076,8 @@
   "season": null,
   "component": false,
   "cross_reactive": true,
-  "sample_class": 0
+  "sample_class": 0,
+  "family": "CCD(교차반응 당쇄)"
  },
  {
   "no": 161,
@@ -1929,7 +2089,8 @@
   "season": null,
   "component": true,
   "cross_reactive": true,
-  "sample_class": 0
+  "sample_class": 0,
+  "family": "CCD(교차반응 당쇄)"
  },
  {
   "no": 162,
@@ -1941,7 +2102,8 @@
   "season": null,
   "component": true,
   "cross_reactive": true,
-  "sample_class": 0
+  "sample_class": 0,
+  "family": "CCD(교차반응 당쇄)"
  },
  {
   "no": 163,
@@ -1953,7 +2115,8 @@
   "season": null,
   "component": false,
   "cross_reactive": false,
-  "sample_class": 0
+  "sample_class": 0,
+  "family": "이소시아네이트 TDI"
  },
  {
   "no": 164,
@@ -1965,7 +2128,8 @@
   "season": null,
   "component": false,
   "cross_reactive": false,
-  "sample_class": 0
+  "sample_class": 0,
+  "family": "이소시아네이트 MDI"
  },
  {
   "no": 165,
@@ -1977,6 +2141,7 @@
   "season": null,
   "component": false,
   "cross_reactive": false,
-  "sample_class": 0
+  "sample_class": 0,
+  "family": "이소시아네이트 HDI"
  }
 ]
