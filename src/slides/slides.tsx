@@ -3,7 +3,7 @@ import { useRise, useReveal, easeOut } from './anim';
 import { Frame, Title, Sub, Em, Tag, ClassLegend, Illust, Footer } from './ui';
 import type { Buckets } from '../lib/classify';
 import { birchCrossReaction } from '../lib/classify';
-import { avoidanceCards } from '../lib/avoidance';
+import { avoidanceCards, type AvoidCard } from '../lib/avoidance';
 import { config } from '../config';
 import type { FamilyResult } from '../lib/types';
 
@@ -105,7 +105,6 @@ export function S2Model() {
   const a = easeOut(r(10, 20));
   const b = easeOut(r(40, 20));
   const c = useRise(90, 24);
-  const d = useRise(125, 24);
   return (
     <Frame>
       <Title>알레르기 비염은 어떤 병인가요?</Title>
@@ -142,12 +141,7 @@ export function S2Model() {
       >
         <Illust src="02b-control-not-cure.jpg" style={{ width: 100, height: 100, borderRadius: 18 }} />
         <div>
-          <div>
-            그래서 목표는 <Em>완치</Em>가 아니라 <Em color="#D62828">잘 조절하는 것</Em>입니다
-          </div>
-          <div style={{ fontSize: 30, fontWeight: 700, color: '#A4161A', marginTop: 8, ...d }}>
-            조절하지 않으면 귀, 목을 거쳐 심장과 폐까지 번집니다.
-          </div>
+          그래서 목표는 <Em>완치</Em>가 아니라 <Em color="#D62828">잘 조절하는 것</Em>입니다
         </div>
       </div>
     </Frame>
@@ -309,61 +303,48 @@ function SeasonRow({
   );
 }
 
-/* 5. 회피요법 */
-export function S5Avoid({ d }: { d: SlideData }) {
-  const cards = avoidanceCards(d.results);
+/* 5. 회피요법 — 항원 묶음마다 한 장, 그림만 */
+export function S5AvoidOne({ c }: { c: AvoidCard }) {
+  const r = useReveal();
+  const single = c.images.length === 1;
+  const fams = c.families.slice(0, 8).join(', ') + (c.families.length > 8 ? ` 외 ${c.families.length - 8}개` : '');
   return (
     <Frame>
-      <Title>원인 항원 피하기</Title>
-      <Sub>완전히 없앨 수는 없지만, 노출을 줄이면 약이 훨씬 잘 듣습니다.</Sub>
+      <Title>{c.title} 피하기</Title>
+      <Sub>{fams}</Sub>
       <div
         style={{
-          display: 'grid',
-          gridTemplateColumns: `repeat(${cards.length <= 3 ? cards.length || 1 : Math.ceil(cards.length / 2)}, 1fr)`,
-          gridAutoRows: '1fr',
-          gap: 20,
+          display: 'flex',
+          gap: 40,
           flex: 1,
           minHeight: 0,
+          alignItems: 'center',
+          justifyContent: 'center',
+          paddingBottom: 10,
         }}
       >
-        {cards.length === 0 && <div style={{ fontSize: 30, color: COLORS.sub }}>양성 항원이 없어 회피요법 카드가 없습니다.</div>}
-        {cards.slice(0, 6).map((c, i) => (
-          <AvoidCardView key={c.key} c={c} delay={15 + i * 15} compact={cards.length > 3} />
-        ))}
+        {c.images.map((src, i) => {
+          const t = easeOut(r(10 + i * 14, 18));
+          return (
+            <Illust
+              key={src}
+              src={src}
+              style={{
+                width: single ? '58%' : undefined,
+                flex: single ? undefined : '1 1 0',
+                minWidth: 0,
+                height: '100%',
+                maxHeight: '100%',
+                objectFit: 'contain',
+                borderRadius: 28,
+                opacity: t,
+                transform: `translateY(${(1 - t) * 30}px)`,
+              }}
+            />
+          );
+        })}
       </div>
     </Frame>
-  );
-}
-
-function AvoidCardView({
-  c,
-  delay,
-  compact,
-}: {
-  c: ReturnType<typeof avoidanceCards>[number];
-  delay: number;
-  compact: boolean;
-}) {
-  const st = useRise(delay);
-  const r = useReveal();
-  const img = compact ? 88 : 120;
-  return (
-    <div style={{ background: '#fff', borderRadius: 24, padding: compact ? 18 : 26, border: `2px solid ${COLORS.line}`, minHeight: 0, overflow: 'hidden', ...st }}>
-      <div style={{ display: 'flex', gap: 16, alignItems: 'center' }}>
-        <Illust src={c.image} style={{ width: img, height: img, borderRadius: 16 }} />
-        <div>
-          <div style={{ fontSize: compact ? 28 : 34, fontWeight: 900 }}>{c.title}</div>
-          <div style={{ fontSize: compact ? 18 : 20, color: COLORS.sub }}>{c.families.slice(0, 8).join(', ')}{c.families.length > 8 ? ` 외 ${c.families.length - 8}개` : ''}</div>
-        </div>
-      </div>
-      <ul style={{ margin: compact ? '10px 0 0' : '18px 0 0', paddingLeft: 28, fontSize: compact ? 21 : 25, lineHeight: 1.5 }}>
-        {c.tips.map((t, i) => (
-          <li key={i} style={{ opacity: easeOut(r(delay + 12 + i * 6, 12)) }}>
-            {t}
-          </li>
-        ))}
-      </ul>
-    </div>
   );
 }
 
@@ -377,10 +358,30 @@ const COMORBID = [
 ];
 export function S6Comorbid() {
   const r = useReveal();
+  const warn = useRise(8, 22);
   return (
     <Frame>
       <Title>함께 나타날 수 있는 증상·질환</Title>
       <Sub>비염만 있는 게 아니라 아래 증상이 같이 있는 경우가 많습니다. 해당되면 말씀해 주세요.</Sub>
+      <div
+        style={{
+          display: 'flex',
+          alignItems: 'center',
+          gap: 16,
+          alignSelf: 'flex-start',
+          margin: '2px 0 14px',
+          padding: '12px 28px',
+          background: COLORS.beige,
+          borderRadius: 18,
+          fontSize: 30,
+          fontWeight: 800,
+          color: '#9D0208',
+          ...warn,
+        }}
+      >
+        <span style={{ fontSize: 30 }}>⚠</span>
+        조절하지 않으면 귀, 목을 거쳐 심장과 폐까지 번집니다.
+      </div>
       <div style={{ display: 'flex', gap: 30, flex: 1, alignItems: 'center' }}>
         <Illust src="06-comorbid.jpg" fade="right" style={{ width: 608, height: 512, objectFit: 'cover', objectPosition: 'left center', marginLeft: -40 }} />
         <div style={{ flex: 1, display: 'flex', flexDirection: 'column', gap: 18 }}>
@@ -469,7 +470,7 @@ export function S8Timeline() {
   return (
     <Frame>
       <Title>언제 좋아지고, 언제 다시 오나요?</Title>
-      <Illust src="08-timeline-crop.jpg" style={{ width: '70%', height: 'auto', margin: '-6px auto 0', borderRadius: 20 }} />
+      <Illust src="08-timeline-crop.jpg" style={{ width: '84%', height: 'auto', margin: '-6px auto 0', borderRadius: 20 }} />
       <div style={{ position: 'relative', marginTop: 30, flex: 1 }}>
         <div
           style={{
@@ -536,14 +537,29 @@ export function S9Future() {
   );
 }
 
-export const SLIDES: { key: string; title: string; render: (d: SlideData) => React.ReactNode; frames: number }[] = [
-  { key: 'diagnosis', title: '진단', render: (d) => <S1Diagnosis d={d} />, frames: 90 },
-  { key: 'model', title: '질병 모델', render: () => <S2Model />, frames: 170 },
-  { key: 'report', title: '결과지', render: (d) => <S3Report d={d} />, frames: 60 },
-  { key: 'allergens', title: '원인 항원', render: (d) => <S4Allergens d={d} />, frames: 150 },
-  { key: 'avoid', title: '회피요법', render: (d) => <S5Avoid d={d} />, frames: 150 },
-  { key: 'comorbid', title: '동반 증상', render: () => <S6Comorbid />, frames: 120 },
-  { key: 'treatment', title: '치료 계획', render: () => <S7Treatment />, frames: 100 },
-  { key: 'timeline', title: '효과·재진', render: () => <S8Timeline />, frames: 100 },
-  { key: 'future', title: '향후 옵션', render: () => <S9Future />, frames: 90 },
-];
+export interface SlideDef {
+  key: string;
+  title: string;
+  render: (d: SlideData) => React.ReactNode;
+  frames: number;
+}
+
+export function buildSlides(d: SlideData): SlideDef[] {
+  const avoid: SlideDef[] = avoidanceCards(d.results).map((c) => ({
+    key: `avoid-${c.key}`,
+    title: `회피 — ${c.title}`,
+    render: () => <S5AvoidOne c={c} />,
+    frames: 90,
+  }));
+  return [
+    { key: 'diagnosis', title: '진단', render: (x) => <S1Diagnosis d={x} />, frames: 90 },
+    { key: 'model', title: '질병 모델', render: () => <S2Model />, frames: 170 },
+    { key: 'report', title: '결과지', render: (x) => <S3Report d={x} />, frames: 60 },
+    { key: 'allergens', title: '원인 항원', render: (x) => <S4Allergens d={x} />, frames: 150 },
+    ...avoid,
+    { key: 'comorbid', title: '동반 증상', render: () => <S6Comorbid />, frames: 130 },
+    { key: 'treatment', title: '치료 계획', render: () => <S7Treatment />, frames: 100 },
+    { key: 'timeline', title: '효과·재진', render: () => <S8Timeline />, frames: 100 },
+    { key: 'future', title: '향후 옵션', render: () => <S9Future />, frames: 90 },
+  ];
+}

@@ -4,6 +4,8 @@ export interface AvoidCard {
   key: string;
   title: string;
   image: string;
+  /** 슬라이드에 가로로 배치할 그림 (중요한 순서) */
+  images: string[];
   tips: string[];
   /** 이 카드에 해당하는 항원 family 목록 */
   families: string[];
@@ -24,6 +26,7 @@ export function avoidanceCards(results: FamilyResult[]): AvoidCard[] {
       key: 'mite',
       title: '집먼지진드기',
       image: '05-avoid-mite.jpg',
+      images: ['05-avoid-mite-1.jpg', '05-avoid-mite-2.jpg', '05-avoid-mite-3.jpg'],
       families: mite.map((r) => r.family),
       tips: [
         '침구는 55~60℃ 뜨거운 물로 1~2주마다 세탁',
@@ -39,6 +42,7 @@ export function avoidanceCards(results: FamilyResult[]): AvoidCard[] {
       key: 'pet',
       title: '동물 털·비듬',
       image: '05-avoid-pet.jpg',
+      images: ['05-avoid-pet-1.jpg', '05-avoid-pet-2.jpg', '05-avoid-pet-3.jpg'],
       families: pet.map((r) => r.family),
       tips: [
         '침실에는 동물이 들어오지 않게',
@@ -54,6 +58,7 @@ export function avoidanceCards(results: FamilyResult[]): AvoidCard[] {
       key: 'mold',
       title: '곰팡이',
       image: '05-avoid-mold.jpg',
+      images: ['05-avoid-mold-1.jpg', '05-avoid-mold-2.jpg', '05-avoid-mold-3.jpg'],
       families: mold.map((r) => r.family),
       tips: [
         '욕실·주방은 사용 후 환풍기, 물기 제거',
@@ -68,7 +73,8 @@ export function avoidanceCards(results: FamilyResult[]): AvoidCard[] {
     cards.push({
       key: 'roach',
       title: '바퀴벌레',
-      image: '05-avoid-mold.jpg',
+      image: '04-perennial.jpg',
+      images: ['04-perennial.jpg'],
       families: ['바퀴벌레'],
       tips: ['음식물은 밀폐 보관, 싱크대 물기 제거', '틈새 막기·전문 방제', '쓰레기는 바로 비우기'],
     });
@@ -84,6 +90,7 @@ export function avoidanceCards(results: FamilyResult[]): AvoidCard[] {
       key: 'pollen',
       title: `꽃가루 — ${when}`,
       image: '05-avoid-pollen.jpg',
+      images: ['05-avoid-pollen-1.jpg', '05-avoid-pollen-2.jpg', '05-avoid-pollen-3.jpg'],
       families: pollen.map((r) => r.family),
       tips: [
         '꽃가루 철에는 외출 시 마스크·안경',
@@ -100,6 +107,7 @@ export function avoidanceCards(results: FamilyResult[]): AvoidCard[] {
       key: 'food',
       title: '음식·교차반응',
       image: '04-food-cross.jpg',
+      images: ['04-food-cross.jpg'],
       families: food.map((r) => r.family),
       tips: [
         '검사 양성 ≠ 반드시 먹으면 안 됨',

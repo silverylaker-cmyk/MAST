@@ -1,7 +1,7 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { Player, type PlayerRef } from '@remotion/player';
 import { RemotionAnim, StaticAnim } from '../slides/anim';
-import { SLIDES, type SlideData } from '../slides/slides';
+import { buildSlides, type SlideData } from '../slides/slides';
 import { W, H, FPS } from '../slides/theme';
 
 interface Props {
@@ -11,14 +11,16 @@ interface Props {
 }
 
 function SlideComp({ data, index }: { data: SlideData; index: number }) {
-  return <RemotionAnim>{SLIDES[index].render(data)}</RemotionAnim>;
+  const slides = useMemo(() => buildSlides(data), [data]);
+  return <RemotionAnim>{slides[index].render(data)}</RemotionAnim>;
 }
 
 export function SlideShow({ data, onExit, saveStatus }: Props) {
   const [i, setI] = useState(0);
   const [printing, setPrinting] = useState(false);
   const ref = useRef<PlayerRef>(null);
-  const n = SLIDES.length;
+  const slides = useMemo(() => buildSlides(data), [data]);
+  const n = slides.length;
 
   const next = useCallback(() => setI((x) => Math.min(n - 1, x + 1)), [n]);
   const prev = useCallback(() => setI((x) => Math.max(0, x - 1)), []);
@@ -42,11 +44,11 @@ export function SlideShow({ data, onExit, saveStatus }: Props) {
       if (done) return; // seekTo가 다시 ended를 일으키므로 한 번만
       done = true;
       p.pause();
-      p.seekTo(SLIDES[i].frames - 1);
+      p.seekTo(slides[i].frames - 1);
     };
     p.addEventListener('ended', onEnded);
     return () => p.removeEventListener('ended', onEnded);
-  }, [i]);
+  }, [i, slides]);
 
   useEffect(() => {
     if (!printing) return;
@@ -64,10 +66,10 @@ export function SlideShow({ data, onExit, saveStatus }: Props) {
   if (printing) {
     return (
       <div className="print-root">
-        {SLIDES.map((s, k) => (
+        {slides.map((s, k) => (
           <div className="print-page" key={s.key}>
             <div className="print-scale">
-              <StaticAnim>{SLIDES[k].render(data)}</StaticAnim>
+              <StaticAnim>{slides[k].render(data)}</StaticAnim>
             </div>
           </div>
         ))}
@@ -79,7 +81,7 @@ export function SlideShow({ data, onExit, saveStatus }: Props) {
     <div className="show" onClick={next}>
       <div className="show-top" onClick={(e) => e.stopPropagation()}>
         <span className="counter">
-          {i + 1} / {n} · {SLIDES[i].title}
+          {i + 1} / {n} · {slides[i].title}
         </span>
         <span className="save">{saveStatus}</span>
         <button onClick={prev} disabled={i === 0} title="이전 (←)">
@@ -101,7 +103,7 @@ export function SlideShow({ data, onExit, saveStatus }: Props) {
           ref={ref}
           component={SlideComp}
           inputProps={inputProps}
-          durationInFrames={SLIDES[i].frames}
+          durationInFrames={slides[i].frames}
           fps={FPS}
           compositionWidth={W}
           compositionHeight={H}

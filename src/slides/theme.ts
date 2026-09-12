@@ -9,15 +9,15 @@ export const COLORS = {
   line: '#D9E4DF',
 };
 
-/** Class별 글자색: 1 노랑 → 6 검붉음 */
+/** Class별 글자색: 1·2 / 3·4 / 5·6 세 단계 */
 export const CLASS_COLOR: Record<number, string> = {
   0: '#B8C2C4',
-  1: '#D4A800',
-  2: '#F08A00',
-  3: '#E85D04',
-  4: '#D62828',
-  5: '#A4161A',
-  6: '#6A040F',
+  1: '#E0A200',
+  2: '#E0A200',
+  3: '#E4610A',
+  4: '#E4610A',
+  5: '#9D0208',
+  6: '#9D0208',
 };
 export const CLASS_LABEL: Record<number, string> = {
   1: '낮음',

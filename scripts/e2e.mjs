@@ -27,5 +27,6 @@ await page.screenshot({ path: path.join(S,'review.png'), fullPage: true });
 if (process.env.QUIET) { await browser.close(); await server.close(); process.exit(0); }
 await page.click('button.primary');
 await page.waitForSelector('.show');
-for (let i=0;i<9;i++){ await page.waitForTimeout(Number(process.env.WAIT ?? 4500)); await page.screenshot({ path: path.join(S,`slide${i+1}.png`) }); if(i<8) await page.click('.show-top button:nth-of-type(2)'); }
+const N = await page.$$eval(".show-top .counter", e=>Number(e[0].textContent.split("/")[1].trim().split(" ")[0]));
+for (let i=0;i<N;i++){ await page.waitForTimeout(Number(process.env.WAIT ?? 4500)); await page.screenshot({ path: path.join(S,`slide${i+1}.png`) }); if(i<N-1) await page.click('.show-top button:nth-of-type(2)'); }
 await browser.close(); await server.close();

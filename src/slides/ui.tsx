@@ -109,9 +109,13 @@ export function ClassLegend({ delay = 0 }: { delay?: number }) {
   return (
     <div style={{ display: 'flex', gap: 18, alignItems: 'center', fontSize: 22, color: COLORS.sub, ...st }}>
       <span>정도:</span>
-      {[1, 2, 3, 4, 5, 6].map((c) => (
-        <span key={c} style={{ color: CLASS_COLOR[c], fontWeight: 900 }}>
-          Class {c}
+      {[
+        [1, 2],
+        [3, 4],
+        [5, 6],
+      ].map(([a, b]) => (
+        <span key={a} style={{ color: CLASS_COLOR[a], fontWeight: 900 }}>
+          Class {a}·{b}
         </span>
       ))}
       <span style={{ marginLeft: 8 }}>→ 숫자가 클수록 반응이 강합니다</span>
