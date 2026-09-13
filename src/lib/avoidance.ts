@@ -6,6 +6,7 @@ export interface AvoidCard {
   image: string;
   /** 슬라이드에 가로로 배치할 그림 (중요한 순서) */
   images: string[];
+  imageAlts?: string[];
   tips: string[];
   /** 이 카드에 해당하는 항원 family 목록 */
   families: string[];
@@ -27,11 +28,12 @@ export function avoidanceCards(results: FamilyResult[]): AvoidCard[] {
       title: '집먼지진드기',
       image: '05-avoid-mite.jpg',
       images: ['05-avoid-mite-1.jpg', '05-avoid-mite-2.jpg', '05-avoid-mite-3.jpg'],
+      imageAlts: ['침구 고온 세탁', '진드기 방지 매트리스 커버', '습도계 40% 표시로 실내 습도 조절'],
       families: mite.map((r) => r.family),
       tips: [
         '침구는 55~60℃ 뜨거운 물로 1~2주마다 세탁',
         '진드기 방지 커버(매트리스·베개)',
-        '실내 습도 50% 이하, 자주 환기',
+        '실내 습도 40%로 조절, 꽃가루가 많은 때는 환기 피하기',
         '카펫·천 소파·봉제인형은 줄이기',
       ],
     });
@@ -91,10 +93,11 @@ export function avoidanceCards(results: FamilyResult[]): AvoidCard[] {
       title: `꽃가루 — ${when}`,
       image: '05-avoid-pollen.jpg',
       images: ['05-avoid-pollen-1.jpg', '05-avoid-pollen-2.jpg', '05-avoid-pollen-3.jpg'],
+      imageAlts: ['마스크·안경·모자·긴팔을 착용한 외출 모습', '귀가 후 샤워와 옷 갈아입기', '에어드레서(의류관리기)·공기청정기 사용, 꽃가루가 많은 날 창문을 닫고 실내 환기 피하기'],
       families: pollen.map((r) => r.family),
       tips: [
-        '꽃가루 철에는 외출 시 마스크·안경',
-        '창문은 닫고, 차 안은 내기순환',
+        '꽃가루 철에는 외출 시 마스크·안경·모자·긴팔 착용',
+        '의류관리기·공기청정기 사용, 꽃가루가 많은 날 창문을 닫고 환기 피하기',
         '귀가 후 샤워·옷 갈아입기',
         '꽃가루 예보 확인 (건조하고 바람 부는 날 심함)',
       ],

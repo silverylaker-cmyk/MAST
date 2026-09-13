@@ -178,6 +178,7 @@ function Column({
   image,
   delay,
   size,
+  yearRound = false,
 }: {
   title: string;
   when?: string;
@@ -185,6 +186,7 @@ function Column({
   image: string;
   delay: number;
   size: number;
+  yearRound?: boolean;
 }) {
   const st = useRise(delay);
   return (
@@ -202,7 +204,13 @@ function Column({
       }}
     >
       <div style={{ display: 'flex', alignItems: 'center', gap: 16 }}>
-        <Illust src={image} style={{ width: 96, height: 96, borderRadius: 18 }} />
+        {yearRound ? (
+          <div aria-label="봄·여름·가을·겨울, 일 년 내내" role="img" style={{ display: 'grid', gridTemplateColumns: 'repeat(2, 44px)', gap: 4, flexShrink: 0 }}>
+            {['spring', 'summer', 'autumn', 'winter'].map((season) => (
+              <Illust key={season} src={`04-${season}.jpg`} style={{ width: 44, height: 44 }} />
+            ))}
+          </div>
+        ) : <Illust src={image} style={{ width: 96, height: 96, borderRadius: 18 }} />}
         <div>
           <div style={{ fontSize: 36, fontWeight: 900 }}>{title}</div>
           {when && <div style={{ fontSize: 22, color: COLORS.sub }}>{when}</div>}
@@ -239,7 +247,7 @@ export function S4Allergens({ d }: { d: SlideData }) {
       <Title>{d.patientLabel ? `${d.patientLabel}님의 ` : ''}원인 항원</Title>
       <ClassLegend delay={6} />
       <div style={{ display: 'flex', gap: 28, marginTop: 26, flex: 1 }}>
-        <Column title="통년성" when="일 년 내내" items={b.perennial} image="04-perennial.jpg" delay={20} size={size} />
+        <Column title="통년성" when="일 년 내내" items={b.perennial} image="04-perennial.jpg" delay={20} size={size} yearRound />
         <div style={{ flex: 1.6, display: 'flex', flexDirection: 'column', gap: 14, minWidth: 0 }}>
           <div style={{ fontSize: 30, fontWeight: 900, color: COLORS.sub }}>계절성 — 꽃가루 철에</div>
           <SeasonRow label="봄" when="3~5월" items={b.spring} image="04-spring.jpg" delay={35} size={size} />
@@ -289,7 +297,7 @@ function SeasonRow({
         ...st,
       }}
     >
-      <Illust src={image} style={{ width: 77, height: 77, borderRadius: 16 }} />
+      <Illust src={image} alt={`${label} 계절 아이콘`} style={{ width: 77, height: 77, flexShrink: 0, borderRadius: 16 }} />
       <div style={{ width: 110, flexShrink: 0 }}>
         <div style={{ fontSize: 32, fontWeight: 900 }}>{label}</div>
         <div style={{ fontSize: 20, color: COLORS.sub, whiteSpace: 'nowrap' }}>{when}</div>
@@ -329,6 +337,7 @@ export function S5AvoidOne({ c }: { c: AvoidCard }) {
             <Illust
               key={src}
               src={src}
+              alt={c.imageAlts?.[i] ?? ''}
               style={{
                 width: single ? '58%' : undefined,
                 flex: single ? undefined : '1 1 0',

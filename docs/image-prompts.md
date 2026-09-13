@@ -1,5 +1,7 @@
 # 슬라이드용 이미지 생성 프롬프트
 
+> 2026-09 교체 이미지의 최신 프롬프트와 파일 목록은 [이미지 교체 기록](image-refresh-2026-09.md)을 참고하세요. 아래는 초기 생성 기록이며, 계절 그림과 집먼지진드기·꽃가루의 개별 회피요법 이미지는 최신 기록을 우선합니다.
+
 공통 스타일(모든 프롬프트 앞에 붙임):
 > Clean flat vector illustration for a medical patient-education slide, soft pastel palette (mint green, sky blue, warm beige), white background, rounded shapes, no text, no letters, no labels, no watermark, friendly and calm, 16:9 aspect ratio, high resolution.
 

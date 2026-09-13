@@ -15,12 +15,12 @@ const FADE: Record<Fade, string | undefined> = {
 };
 
 /** 사용자가 만든 그림. 파일이 없으면 자리만 비운다. fade: 글자와 겹치는 쪽을 투명하게 */
-export function Illust({ src, style, fade = 'none' }: { src: string; style?: React.CSSProperties; fade?: Fade }) {
+export function Illust({ src, alt = '', style, fade = 'none' }: { src: string; alt?: string; style?: React.CSSProperties; fade?: Fade }) {
   const mask = FADE[fade];
   return (
     <img
       src={`${base}images/${src}`}
-      alt=""
+      alt={alt}
       style={{ objectFit: 'contain', WebkitMaskImage: mask, maskImage: mask, ...style }}
       onError={(e) => ((e.currentTarget as HTMLImageElement).style.display = 'none')}
     />
