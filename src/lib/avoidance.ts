@@ -28,12 +28,12 @@ export function avoidanceCards(results: FamilyResult[]): AvoidCard[] {
       title: '집먼지진드기',
       image: '05-avoid-mite.jpg',
       images: ['05-avoid-mite-1.jpg', '05-avoid-mite-2.jpg', '05-avoid-mite-3.jpg'],
-      imageAlts: ['침구 고온 세탁', '진드기 방지 매트리스 커버', '습도계 40% 표시로 실내 습도 조절'],
+      imageAlts: ['침구 고온 세탁', '진드기 방지 매트리스 커버', '제습기와 에어컨을 사용해 실내 습도 40%로 조절'],
       families: mite.map((r) => r.family),
       tips: [
         '침구는 55~60℃ 뜨거운 물로 1~2주마다 세탁',
         '진드기 방지 커버(매트리스·베개)',
-        '실내 습도 40%로 조절, 꽃가루가 많은 때는 환기 피하기',
+        '제습기·에어컨을 사용해 실내 습도 40%로 조절',
         '카펫·천 소파·봉제인형은 줄이기',
       ],
     });

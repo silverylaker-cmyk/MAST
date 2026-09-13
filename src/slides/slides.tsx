@@ -311,14 +311,15 @@ function SeasonRow({
   );
 }
 
-/* 5. 회피요법 — 항원 묶음마다 한 장, 그림만 */
+/* 5. 회피요법 — 항원 묶음마다 한 장, 음식·교차반응은 안내문도 표시 */
 export function S5AvoidOne({ c }: { c: AvoidCard }) {
   const r = useReveal();
   const single = c.images.length === 1;
+  const showTips = c.key === 'food';
   const fams = c.families.slice(0, 8).join(', ') + (c.families.length > 8 ? ` 외 ${c.families.length - 8}개` : '');
   return (
     <Frame>
-      <Title>{c.title} 피하기</Title>
+      <Title>{c.title}{showTips ? ' 안내' : ' 피하기'}</Title>
       <Sub>{fams}</Sub>
       <div
         style={{
@@ -339,8 +340,8 @@ export function S5AvoidOne({ c }: { c: AvoidCard }) {
               src={src}
               alt={c.imageAlts?.[i] ?? ''}
               style={{
-                width: single ? '58%' : undefined,
-                flex: single ? undefined : '1 1 0',
+                width: showTips ? '43%' : single ? '58%' : undefined,
+                flex: showTips ? '0 0 43%' : single ? undefined : '1 1 0',
                 minWidth: 0,
                 height: '100%',
                 maxHeight: '100%',
@@ -352,6 +353,17 @@ export function S5AvoidOne({ c }: { c: AvoidCard }) {
             />
           );
         })}
+        {showTips && (
+          <div style={{ flex: 1, minWidth: 0, opacity: easeOut(r(24, 18)) }}>
+            <ul style={{ margin: 0, paddingLeft: 44, fontSize: 36, lineHeight: 1.55, color: COLORS.ink }}>
+              {c.tips.map((tip, i) => (
+                <li key={tip} style={{ marginBottom: i === c.tips.length - 1 ? 0 : 28, fontWeight: i === 0 ? 900 : 500 }}>
+                  {tip}
+                </li>
+              ))}
+            </ul>
+          </div>
+        )}
       </div>
     </Frame>
   );
