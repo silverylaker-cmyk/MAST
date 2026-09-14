@@ -149,13 +149,52 @@ function median(xs: number[]): number {
 
 const LABELS = [
   /없거나\s*아주\s*낮음/g,
-  /보통\s*\/?\s*조금\s*높음/g,
-  /\/?\s*조금\s*높음/g,
-  /매우\s*높음/g,
+  /보통\s*\/?\s*조금\s*[높놓]음/g,
+  /\/?\s*조금\s*[높놓]음/g,
+  /매우\s*[높놓]음/g,
   /낮음/g,
   /보통/g,
-  /높음/g,
+  /[높놓]음/g,
 ];
+
+/** Class 설명 라벨(없거나 아주 낮음 … 매우 높음)로 보이는 단어 */
+const LABEL_WORD = /^[|:.\s]*(없거나|아주|낮음|보통|조금|높음|매우|보통\/조금|없거나아주낮음|매우높음|조금높음|보통\/조금높음)[|:.\s]*$/;
+/** 라벨을 한 글자씩 끊어 읽은 조각(보 통 / 조 금 …) */
+const LABEL_FRAGMENT = /^[|:.\s/]*[없거나아주낮음보통조금높매우]{1,2}[|:.\s/]*$/;
+
+/**
+ * 항원명 열이 시작하는 x 좌표를 추정한다.
+ * 표의 Class 설명 라벨(낮음/보통/높음…)이 항원명 바로 왼쪽 열이므로, 그 오른쪽 끝을 경계로 쓴다.
+ */
+export function antigenColumnX(lines: OcrLine[]): number | null {
+  const xs: number[] = [];
+  for (const ln of lines) {
+    for (const w of ln.words ?? []) if (LABEL_WORD.test(w.text)) xs.push(w.x1);
+  }
+  if (xs.length < 3) return null;
+  return Math.max(...xs) + 4;
+}
+
+/** 항원명 열보다 왼쪽 부분만 남긴 줄 (앵커·총IgE 판독용) */
+export function clipLeft(lines: OcrLine[], x: number): OcrLine[] {
+  const out: OcrLine[] = [];
+  for (const ln of lines) {
+    if (!ln.words || !ln.words.length) {
+      if (ln.x1 <= x) out.push(ln);
+      continue;
+    }
+    const words = ln.words.filter((w) => w.x1 <= x && !LABEL_WORD.test(w.text) && !LABEL_FRAGMENT.test(w.text));
+    if (!words.length) continue;
+    out.push({
+      ...ln,
+      words,
+      text: words.map((w) => w.text).join(' '),
+      x0: Math.min(...words.map((w) => w.x0)),
+      x1: Math.max(...words.map((w) => w.x1)),
+    });
+  }
+  return out;
+}
 
 /** 항원명 셀 텍스트를 쉼표 기준으로 토큰화. 괄호 안 쉼표는 보호 */
 export function splitTokens(text: string): string[] {

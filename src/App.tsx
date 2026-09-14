@@ -3,7 +3,7 @@ import { PasteInput } from './components/PasteInput';
 import { Review } from './components/Review';
 import { SlideShow } from './components/SlideShow';
 import { recognizeLines } from './lib/ocr';
-import { parseLines, mergeParsed } from './lib/parse';
+import { parseLines, mergeParsed, antigenColumnX, clipLeft } from './lib/parse';
 import { bucket, summarize } from './lib/classify';
 import { saveToSheet } from './lib/sheets';
 import type { Finding } from './lib/types';
@@ -26,11 +26,22 @@ export default function App() {
     setStage('ocr');
     setError('');
     try {
-      // 짧은 항원명은 확대 배율에 따라 읽히기도, 안 읽히기도 해서 두 배율로 판독해 합친다
+      const debug = location.search.includes('debug');
       const single = new URLSearchParams(location.search).has('scale');
       const a = await recognizeLines(dataUrl, setProgress);
-      if (location.search.includes('debug')) (window as unknown as { __ocrLines: unknown }).__ocrLines = a.lines;
+      if (debug) (window as unknown as { __ocrLines: unknown }).__ocrLines = a.lines;
       let r = parseLines(a.lines, a.separators);
+      // 2차: 항원명 열만 잘라서 다시 판독한다. 열이 좁으면 줄 나눔이 정확해져
+      // 여러 줄에 걸친 칸(Class 3 등)도 제대로 읽힌다.
+      const colX = antigenColumnX(a.lines);
+      if (colX) {
+        setProgress('항원명 열 판독 중…');
+        const c = await recognizeLines(dataUrl, undefined, undefined, colX);
+        if (debug) (window as unknown as { __colLines: unknown }).__colLines = c.lines;
+        const merged = [...clipLeft(a.lines, colX), ...c.lines];
+        r = mergeParsed(parseLines(merged, a.separators), r);
+      }
+      // 짧은 항원명은 확대 배율에 따라 읽히기도, 안 읽히기도 해서 다른 배율로도 판독해 합친다
       if (!single) {
         setProgress('2차 판독 중…');
         const b = await recognizeLines(dataUrl, undefined, 4);
