@@ -401,7 +401,7 @@ export function S6Comorbid() {
         }}
       >
         <span style={{ fontSize: 30 }}>⚠</span>
-        조절하지 않으면 귀, 목을 거쳐 심장과 폐까지 번집니다.
+        조절하지 않으면 귀, 목을 거쳐 심장, 폐와 뇌까지 영향을 미칩니다.
       </div>
       <div style={{ display: 'flex', gap: 30, flex: 1, alignItems: 'center' }}>
         <Illust src="06-comorbid.jpg" fade="right" style={{ width: 608, height: 512, objectFit: 'cover', objectPosition: 'left center', marginLeft: -40 }} />
