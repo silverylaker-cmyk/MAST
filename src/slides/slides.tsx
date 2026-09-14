@@ -376,6 +376,7 @@ const COMORBID = [
   { name: '부비동염(축농증)', desc: '누런 콧물, 얼굴 통증, 코막힘이 오래감' },
   { name: '수면 장애', desc: '코막힘으로 입 호흡·코골이·낮 졸림' },
   { name: '후각 저하', desc: '냄새를 잘 못 맡음, 코 점막 부종 때문' },
+  { name: '피부 질환', desc: '아토피피부염·두드러기·피부 가려움' },
 ];
 export function S6Comorbid() {
   const r = useReveal();
