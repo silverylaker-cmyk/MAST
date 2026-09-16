@@ -222,6 +222,7 @@ function stripLabel(s: string): string {
 export interface ParsedReport {
   findings: Finding[];
   totalIgE: number | null;
+  warnings?: string[];
   /** 판독 과정 로그(디버그용) */
   rows: { cls: number; text: string }[];
 }
@@ -246,13 +247,23 @@ export function parseLines(lines: OcrLine[], separators: number[] = []): ParsedR
   const table = clean.filter((ln) => ln.y0 < totalY);
   const minX = table.length ? Math.min(...table.map((l) => l.x0)) : 0;
   const rows = new Map<number, string[]>();
+  const warnings: string[] = [];
+  // 글자 높이에 비례시켜 캡처 배율에 영향을 덜 받는다.
+  const heightsForScale = table.map((l) => l.y1 - l.y0).filter((h) => h > 0);
+  const tolerance = (heightsForScale.length ? median(heightsForScale) : 20) * 6;
 
   const seps = separators.filter((s) => s < totalY).sort((a, b) => a - b);
-  if (seps.length >= 3) {
+  const anchorLines = table.filter((l) => l.x0 < minX + tolerance && detectAnchor(l.text));
+  const bandIds = anchorLines.map((l) => seps.findIndex((top, i) =>
+    i + 1 < seps.length && (l.y0 + l.y1) / 2 > top && (l.y0 + l.y1) / 2 < seps[i + 1]));
+  // 모든 앵커가 서로 다른 띠 안에 있을 때만 구분선을 신뢰한다.
+  const validBands = anchorLines.length >= 2 && bandIds.every((i) => i >= 0)
+    && new Set(bandIds).size === bandIds.length;
+  if (seps.length >= 3 && validBands) {
     // 2a) 구분선 사이 띠(band)마다: 앵커로 Class를 정하고, 그 띠의 항원명 줄을 모은다
-    const nonAnchor = table.filter((ln) => !(ln.x0 < minX + 120 && detectAnchor(ln.text)));
+    const nonAnchor = table.filter((ln) => !(ln.x0 < minX + tolerance && detectAnchor(ln.text)));
     const xs = nonAnchor.filter((l) => /^[가-힣A-Za-z]/.test(l.text)).map((l) => l.x0).sort((a, b) => a - b);
-    const namesX = xs.length ? xs[Math.floor(xs.length / 2)] : minX + 120;
+    const namesX = xs.length ? xs[Math.floor(xs.length / 2)] : minX + tolerance;
     const bands: { cls: number; parts: string[] }[] = [];
     for (let i = 0; i + 1 < seps.length; i++) {
       const top = seps[i];
@@ -264,7 +275,7 @@ export function parseLines(lines: OcrLine[], separators: number[] = []): ParsedR
       let cls: number | null = null;
       const parts: string[] = [];
       for (const ln of inBand) {
-        const m = ln.x0 < minX + 120 ? detectAnchor(ln.text) : null;
+        const m = ln.x0 < minX + tolerance ? detectAnchor(ln.text) : null;
         if (m) {
           if (cls === null) cls = m.cls;
           const rest = stripLabel(ln.text.slice(m.end));
@@ -275,8 +286,8 @@ export function parseLines(lines: OcrLine[], separators: number[] = []): ParsedR
         let text = ln.text;
         if (ln.words && ln.words.length) {
           // 항원명 열 왼쪽의 쓰레기 단어는 버리고 나머지만
-          text = ln.words.filter((w) => w.x1 >= namesX - 60).map((w) => w.text).join(' ');
-        } else if (ln.x0 < namesX - 60) continue;
+          text = ln.words.filter((w) => w.x1 >= namesX - tolerance / 2).map((w) => w.text).join(' ');
+        } else if (ln.x0 < namesX - tolerance / 2) continue;
         text = stripLabel(joinHangul(text));
         if (text && /[가-힣A-Za-z]/.test(text)) parts.push(text);
       }
@@ -285,6 +296,7 @@ export function parseLines(lines: OcrLine[], separators: number[] = []): ParsedR
         const prev = bands[bands.length - 1];
         if (!prev || prev.cls >= 6) continue;
         cls = prev.cls + 1;
+        if (parts.length) warnings.push(`Class ${cls}는 행 위치로 추정했습니다. 원본을 확인해 주세요.`);
       }
       bands.push({ cls, parts });
     }
@@ -295,7 +307,7 @@ export function parseLines(lines: OcrLine[], separators: number[] = []): ParsedR
       if (!rows.has(b.cls)) rows.set(b.cls, []);
       rows.get(b.cls)!.push(...b.parts);
     }
-    return finish(rows, totalIgE);
+    return { ...finish(rows, totalIgE), warnings };
   }
 
   // 2b) 구분선이 없으면: 앵커 행(범위 + Class)을 찾고 대칭 규칙으로 배정
@@ -303,7 +315,7 @@ export function parseLines(lines: OcrLine[], separators: number[] = []): ParsedR
   const others: { text: string; x0: number; yc: number; fromAnchor?: boolean }[] = [];
   const heights: number[] = [];
   for (const ln of table) {
-    const m = ln.x0 < minX + 120 ? detectAnchor(ln.text) : null;
+    const m = ln.x0 < minX + tolerance ? detectAnchor(ln.text) : null;
     if (m) {
       const restText = ln.text.slice(m.end);
       // 단어 좌표가 있으면 앵커(Class 숫자까지)와 나머지(항원명)를 분리해 각자의 세로 위치를 쓴다
@@ -343,14 +355,14 @@ export function parseLines(lines: OcrLine[], separators: number[] = []): ParsedR
   if (uniq.length) {
     // 3) 항원명 열의 x 위치: 앵커가 아닌 한글 줄들의 x0 중앙값. 그보다 왼쪽에서 시작하는 줄은 쓰레기/라벨
     const xs = others.filter((l) => !l.fromAnchor && /[가-힣]/.test(l.text)).map((l) => l.x0).sort((a, b) => a - b);
-    const namesX = xs.length ? xs[Math.floor(xs.length / 2)] : minX + 120;
+    const namesX = xs.length ? xs[Math.floor(xs.length / 2)] : minX + tolerance;
     const hs = heights.sort((a, b) => a - b);
     const lineH = hs.length ? hs[Math.floor(hs.length / 2)] : 20;
     const tol = lineH * 0.45;
     const names = others
       .map((l) => ({ ...l, text: stripLabel(l.text) }))
       .filter((l) => l.text && /[가-힣A-Za-z]/.test(l.text))
-      .filter((l) => l.fromAnchor || l.x0 >= namesX - 60)
+      .filter((l) => l.fromAnchor || l.x0 >= namesX - tolerance / 2)
       .filter((l) => !/특이\s*IgE|IU\/mL|Class|항체/i.test(l.text))
       .filter((l) => l.yc >= uniq[0].y - lineH * 6 && l.yc <= uniq[uniq.length - 1].y + lineH * 6)
       .sort((a, b) => a.yc - b.yc);
@@ -416,9 +428,10 @@ function finish(rows: Map<number, string[]>, totalIgE: number | null): ParsedRep
 
 /**
  * 두 번 판독한 결과 합치기. 1차를 기본으로 하고, 2차에서 확신 높게(≥0.8) 매칭된 항원만 보탠다.
- * 같은 항원이면 높은 Class를 쓴다. 미매칭 토큰은 1차 것만 남긴다.
+ * Class가 다르면 기본 판독을 유지하고 확인 경고를 남긴다.
  */
 export function mergeParsed(primary: ParsedReport, secondary: ParsedReport): ParsedReport {
+  const warnings = [...(primary.warnings ?? []), ...(secondary.warnings ?? [])];
   const byNo = new Map<number, Finding>();
   const unmatched: Finding[] = [];
   for (const f of primary.findings) {
@@ -429,8 +442,11 @@ export function mergeParsed(primary: ParsedReport, secondary: ParsedReport): Par
     if (f.no === null || f.score < 0.8) continue;
     const cur = byNo.get(f.no);
     if (!cur) byNo.set(f.no, f);
-    else if (f.cls > cur.cls) byNo.set(f.no, { ...cur, cls: f.cls });
+    else if (f.cls !== cur.cls) {
+      byNo.set(f.no, { ...cur, score: Math.min(cur.score, 0.75) });
+      warnings.push(`${cur.raw}: Class ${cur.cls} / ${f.cls}로 다르게 읽혔습니다. 원본을 확인해 주세요.`);
+    }
   }
   const findings = [...byNo.values(), ...unmatched].sort((a, b) => b.cls - a.cls || a.raw.localeCompare(b.raw));
-  return { findings, totalIgE: primary.totalIgE ?? secondary.totalIgE, rows: primary.rows };
+  return { findings, totalIgE: primary.totalIgE ?? secondary.totalIgE, rows: primary.rows.length ? primary.rows : secondary.rows, warnings: [...new Set(warnings)] };
 }

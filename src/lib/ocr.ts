@@ -13,6 +13,9 @@ function getWorker() {
       langPath: base,
       gzip: false,
       logger: () => {},
+    }).catch((error) => {
+      workerPromise = null;
+      throw error;
     });
   }
   return workerPromise;
@@ -54,8 +57,10 @@ async function upscale(
   dataUrl: string,
   scaleOverride?: number,
   cropX = 0,
+  threshold?: number,
 ): Promise<{ canvas: HTMLCanvasElement; separators: number[]; dx: number }> {
-  const { scale, thr, pixelated } = tuning(scaleOverride);
+  const { scale, thr: configuredThreshold, pixelated } = tuning(scaleOverride);
+  const thr = threshold ?? configuredThreshold;
   const img = new Image();
   img.src = dataUrl;
   await img.decode();
@@ -63,6 +68,8 @@ async function upscale(
   c.width = Math.round(img.width * scale);
   c.height = Math.round(img.height * scale);
   const ctx = c.getContext('2d')!;
+  ctx.fillStyle = '#fff';
+  ctx.fillRect(0, 0, c.width, c.height);
   if (pixelated) {
     ctx.imageSmoothingEnabled = false;
     ctx.drawImage(img, 0, 0, c.width, c.height);
@@ -70,6 +77,7 @@ async function upscale(
     // createImageBitmap의 고품질 리사이즈(Lanczos 계열)가 canvas smoothing보다 글자가 또렷하다
     const bmp = await createImageBitmap(img, { resizeWidth: c.width, resizeHeight: c.height, resizeQuality: 'high' });
     ctx.drawImage(bmp, 0, 0);
+    bmp.close();
   }
   // 대비 강화 (흑백)
   const im = ctx.getImageData(0, 0, c.width, c.height);
@@ -108,11 +116,12 @@ export async function recognizeLines(
   scale?: number,
   /** 이 x 좌표(확대 후 캔버스 기준) 오른쪽만 판독한다. 좌표는 원래대로 되돌려 준다 */
   cropX = 0,
+  threshold?: number,
 ): Promise<{ lines: OcrLine[]; separators: number[] }> {
   onProgress?.('OCR 엔진 준비 중…');
   const worker = await getWorker();
   onProgress?.('이미지 전처리 중…');
-  const { canvas, separators, dx } = await upscale(dataUrl, scale, cropX);
+  const { canvas, separators, dx } = await upscale(dataUrl, scale, cropX, threshold);
   onProgress?.('글자 인식 중… (첫 실행은 언어 데이터 다운로드로 20~30초 걸릴 수 있습니다)');
   const { data } = await worker.recognize(canvas, {}, { blocks: true });
   const lines: OcrLine[] = [];
