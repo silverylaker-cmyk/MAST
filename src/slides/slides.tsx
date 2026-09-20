@@ -378,11 +378,11 @@ export function S5AvoidOne({ c }: { c: AvoidCard }) {
                   src={badge.src}
                   style={{
                     position: 'absolute',
-                    bottom: 'calc(100% + 14px)',
+                    bottom: 'calc(100% - 34px)',
                     left: '50%',
-                    marginLeft: -66,
-                    width: 132,
-                    height: 132,
+                    marginLeft: -112,
+                    width: 224,
+                    height: 224,
                     filter: 'drop-shadow(0 8px 20px rgba(0,0,0,.25))',
                     opacity: bt,
                     transform: `scale(${0.8 + bt * 0.2}) rotate(${(1 - bt) * -12}deg)`,
