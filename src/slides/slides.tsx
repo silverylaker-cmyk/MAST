@@ -334,36 +334,64 @@ export function S5AvoidOne({ c }: { c: AvoidCard }) {
       >
         {c.images.map((src, i) => {
           const t = easeOut(r(10 + i * 14, 18));
+          const badge = c.badge && c.badge.after === i ? c.badge : null;
+          const bt = easeOut(r(10 + c.images.length * 14, 16));
           return (
-            <Illust
+            <div
               key={src}
-              src={src}
-              alt={c.imageAlts?.[i] ?? ''}
               style={{
-                width: showTips ? '43%' : single ? '58%' : undefined,
-                flex: showTips ? '0 0 43%' : single ? undefined : '1 1 0',
+                width: single ? '58%' : undefined,
+                flex: single ? undefined : '1 1 0',
                 minWidth: 0,
                 height: '100%',
-                maxHeight: '100%',
-                objectFit: 'contain',
-                borderRadius: 28,
-                opacity: t,
-                transform: `translateY(${(1 - t) * 30}px)`,
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                // 그림(정사각형)에 딱 맞는 상자여야 금지 표시를 모서리에 붙일 수 있다
+                position: single ? 'relative' : undefined,
               }}
-            />
+            >
+              <div
+                style={{
+                  position: 'relative',
+                  height: single ? '100%' : undefined,
+                  maxHeight: '100%',
+                  maxWidth: '100%',
+                  aspectRatio: single ? undefined : '1 / 1',
+                  display: 'flex',
+                }}
+              >
+              <Illust
+                src={src}
+                style={{
+                  width: '100%',
+                  height: '100%',
+                  maxHeight: '100%',
+                  objectFit: 'contain',
+                  borderRadius: 28,
+                  opacity: t,
+                  transform: `translateY(${(1 - t) * 30}px)`,
+                }}
+              />
+              {badge && (
+                <Illust
+                  src={badge.src}
+                  style={{
+                    position: 'absolute',
+                    top: -72,
+                    right: -92,
+                    width: 184,
+                    height: 184,
+                    filter: 'drop-shadow(0 8px 20px rgba(0,0,0,.25))',
+                    opacity: bt,
+                    transform: `scale(${0.8 + bt * 0.2}) rotate(${(1 - bt) * -12}deg)`,
+                  }}
+                />
+              )}
+              </div>
+            </div>
           );
         })}
-        {showTips && (
-          <div style={{ flex: 1, minWidth: 0, opacity: easeOut(r(24, 18)) }}>
-            <ul style={{ margin: 0, paddingLeft: 44, fontSize: 36, lineHeight: 1.55, color: COLORS.ink }}>
-              {c.tips.map((tip, i) => (
-                <li key={tip} style={{ marginBottom: i === c.tips.length - 1 ? 0 : 28, fontWeight: i === 0 ? 900 : 500 }}>
-                  {tip}
-                </li>
-              ))}
-            </ul>
-          </div>
-        )}
       </div>
     </Frame>
   );
