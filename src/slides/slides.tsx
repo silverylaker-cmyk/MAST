@@ -334,7 +334,7 @@ export function S5AvoidOne({ c }: { c: AvoidCard }) {
       >
         {c.images.map((src, i) => {
           const t = easeOut(r(10 + i * 14, 18));
-          const badge = c.badge && c.badge.after === i ? c.badge : null;
+          const badge = c.badge && c.badge.over === i ? c.badge : null;
           const bt = easeOut(r(10 + c.images.length * 14, 16));
           return (
             <div
@@ -378,13 +378,15 @@ export function S5AvoidOne({ c }: { c: AvoidCard }) {
                   src={badge.src}
                   style={{
                     position: 'absolute',
-                    top: -72,
-                    right: -92,
-                    width: 184,
-                    height: 184,
+                    bottom: 'calc(100% + 14px)',
+                    left: '50%',
+                    marginLeft: -66,
+                    width: 132,
+                    height: 132,
                     filter: 'drop-shadow(0 8px 20px rgba(0,0,0,.25))',
                     opacity: bt,
                     transform: `scale(${0.8 + bt * 0.2}) rotate(${(1 - bt) * -12}deg)`,
+                    transformOrigin: 'bottom center',
                   }}
                 />
               )}

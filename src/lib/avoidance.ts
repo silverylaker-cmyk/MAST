@@ -6,8 +6,8 @@ export interface AvoidCard {
   image: string;
   /** 슬라이드에 가로로 배치할 그림 (중요한 순서) */
   images: string[];
-  /** 그림 사이에 겹쳐 놓는 금지 표시 (after: 왼쪽 그림의 번호, 0부터) */
-  badge?: { src: string; after: number };
+  /** 그림 위 여백에 놓는 금지 표시 (over: 그림 번호, 0부터) */
+  badge?: { src: string; over: number };
   imageAlts?: string[];
   tips: string[];
   /** 이 카드에 해당하는 항원 family 목록 */
@@ -30,8 +30,8 @@ export function avoidanceCards(results: FamilyResult[]): AvoidCard[] {
       title: '집먼지진드기',
       image: '05-avoid-mite.jpg',
       images: ['05-avoid-mite-1.jpg', '05-avoid-mite-2.jpg', '05-avoid-mite-3.jpg'],
-      // 먼지떨이는 먼지를 공중에 날려 오히려 나쁘다 — 2번·3번 그림 사이에 겹쳐 표시
-      badge: { src: '05-no-duster.png', after: 1 },
+      // 먼지떨이는 먼지를 공중에 날려 오히려 나쁘다 — 3번 그림 위 여백에 표시
+      badge: { src: '05-no-duster.png', over: 2 },
       imageAlts: ['침구 고온 세탁', '진드기 방지 매트리스 커버', '제습기와 에어컨을 사용해 실내 습도 40%로 조절'],
       families: mite.map((r) => r.family),
       tips: [
