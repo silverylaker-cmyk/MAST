@@ -340,7 +340,7 @@ export function S5AvoidOne({ c }: { c: AvoidCard }) {
             <div
               key={src}
               style={{
-                width: single ? '58%' : undefined,
+                width: single ? (showTips ? '44%' : '58%') : undefined,
                 flex: single ? undefined : '1 1 0',
                 minWidth: 0,
                 height: '100%',
@@ -394,6 +394,35 @@ export function S5AvoidOne({ c }: { c: AvoidCard }) {
             </div>
           );
         })}
+        {showTips && (
+          <ul style={{ flex: 1, margin: 0, padding: 0, listStyle: 'none', display: 'flex', flexDirection: 'column', gap: 22 }}>
+            {c.tips.map((t, i) => {
+              const o = easeOut(r(24 + i * 12, 16));
+              return (
+                <li
+                  key={i}
+                  style={{
+                    display: 'flex',
+                    gap: 18,
+                    alignItems: 'flex-start',
+                    background: '#fff',
+                    border: `2px solid ${COLORS.line}`,
+                    borderRadius: 18,
+                    padding: '18px 26px',
+                    fontSize: 30,
+                    lineHeight: 1.5,
+                    fontWeight: 700,
+                    opacity: o,
+                    transform: `translateX(${(1 - o) * 40}px)`,
+                  }}
+                >
+                  <span style={{ color: COLORS.mintDark, fontWeight: 900 }}>{i + 1}</span>
+                  <span>{t}</span>
+                </li>
+              );
+            })}
+          </ul>
+        )}
       </div>
     </Frame>
   );
