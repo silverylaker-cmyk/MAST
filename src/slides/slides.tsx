@@ -435,8 +435,7 @@ const COMORBID = [
   { name: '부비동염(축농증)', desc: '누런 콧물, 얼굴 통증, 코막힘이 오래감' },
   { name: '수면 장애', desc: '코막힘으로 입 호흡·코골이·낮 졸림' },
   { name: '후각 저하', desc: '냄새를 잘 못 맡음, 코 점막 부종 때문' },
-  { name: '중이염', desc: '귀가 먹먹하고 아프거나 물이 차는 느낌, 특히 소아에서 잦음' },
-  { name: '난청', desc: '코와 귀를 잇는 관(이관)이 막혀 잘 안 들림' },
+  { name: '중이염, 난청', desc: '귀가 먹먹함·귀 통증·잘 안 들림' },
   { name: '피부 질환', desc: '아토피피부염·두드러기·피부 가려움' },
 ];
 export function S6Comorbid() {
@@ -467,7 +466,7 @@ export function S6Comorbid() {
       </div>
       <div style={{ display: 'flex', gap: 30, flex: 1, alignItems: 'center' }}>
         <Illust src="06-comorbid.jpg" fade="right" style={{ width: 608, height: 512, objectFit: 'cover', objectPosition: 'left center', marginLeft: -40 }} />
-        <div style={{ flex: 1, display: 'flex', flexDirection: 'column', gap: 12 }}>
+        <div style={{ flex: 1, display: 'flex', flexDirection: 'column', gap: 15 }}>
           {COMORBID.map((c, i) => {
             const t = easeOut(r(15 + i * 12, 16));
             return (
@@ -480,7 +479,7 @@ export function S6Comorbid() {
                   background: '#fff',
                   border: `2px solid ${COLORS.line}`,
                   borderRadius: 18,
-                  padding: '12px 26px',
+                  padding: '14px 26px',
                   opacity: t,
                   transform: `translateX(${(1 - t) * 40}px)`,
                 }}
