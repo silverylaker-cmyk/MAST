@@ -73,6 +73,95 @@ export interface MatchResult {
  */
 export function matchToken(token: string, threshold = 0.6): MatchResult {
   const t = token.trim();
+  const fullLen = normalize(t).length;
+  // 1) 성분 코드(rDer p 10, nBos d 4, nGluten…)가 보이면 코드로 바로 찾는다. 결과지의 괄호 설명은 기관마다 달라서 믿지 않는다
+  const byCode = matchComponentCode(t);
+  if (byCode) return { allergen: byCode, score: 1, keyLength: fullLen, isComponent: true };
+  let best = matchCore(t, threshold);
+  if (best.score >= 0.95) return best;
+  // 2) "생쥐/쥐", "땅콩 (Peanut)"처럼 이름이 여러 표기로 적힌 경우: 조각마다 맞춰 보고 가장 좋은 것
+  const open = t.search(/[(（]/);
+  const junkOuter = open > 0 && !/[가-힣]/.test(t.slice(0, open));
+  for (const v of nameVariants(t)) {
+    let r = matchCore(v, threshold);
+    // "0 ㅁ 8605 0 5 (우유)"처럼 바깥이 깨졌는데 괄호 안 이름으로만 찾은 것은 계열만 맞을 수 있어 확인 표시
+    if (r.allergen && junkOuter && !t.startsWith(v)) r = { ...r, score: Math.min(r.score, 0.75) };
+    if (r.allergen && r.score > best.score) best = { ...r, keyLength: Math.max(r.keyLength, fullLen), isComponent: best.isComponent };
+  }
+  return best;
+}
+
+/** "A/B", "A (B)" → ["A", "B"]. 괄호가 중첩돼도 바깥 이름과 안쪽 설명으로 나눈다 */
+function nameVariants(t: string): string[] {
+  const out = new Set<string>();
+  const open = t.search(/[(（]/);
+  // 바깥이 영문(성분 코드가 깨진 것)이면 괄호 안 이름은 '어느 계열인지'일 뿐이라 쓰지 않는다
+  if (open > 0 && !/[A-Za-z]/.test(t.slice(0, open))) {
+    out.add(t.slice(0, open));
+    const inner = t.slice(open + 1).replace(/[)）]\s*$/, '');
+    out.add(inner);
+    out.add(inner.replace(/[(（].*$/, ''));
+  }
+  for (const x of [...out, t]) for (const part of x.split(/[/／]/)) out.add(part);
+  return [...out].map((x) => x.trim()).filter((x) => x && x !== t.trim());
+}
+
+interface CodeKey {
+  prefix: string;
+  genus: string;
+  species: string;
+  num: string;
+  allergen: Allergen;
+}
+let codeKeys: CodeKey[] | null = null;
+let wordKeys: { prefix: string; word: string; allergen: Allergen }[] | null = null;
+
+function buildCodeKeys() {
+  if (codeKeys && wordKeys) return;
+  codeKeys = [];
+  wordKeys = [];
+  for (const a of ALLERGENS) {
+    if (!a.component) continue;
+    const m = a.name_en.match(/^([rn])([A-Z][a-z]{2})\s+([a-z])\s+(\d{1,2})$/);
+    if (m) codeKeys.push({ prefix: m[1], genus: m[2].toLowerCase(), species: m[3], num: m[4], allergen: a });
+    else {
+      const w = a.name_en.match(/^([rn])(.+)$/);
+      if (w) wordKeys.push({ prefix: w[1], word: w[2].toLowerCase().replace(/[^a-z0-9]/g, ''), allergen: a });
+    }
+  }
+}
+
+/**
+ * 성분항원 코드 판독. OCR 오독(nBos 0 4 → d를 0으로, rDerp10 → 띄어쓰기 누락)을 견딘다.
+ * 접두(r/n)가 같은 것을 우선하고, 종(species) 글자가 깨졌으면 속(genus)+번호가 하나로 정해질 때만 인정한다.
+ */
+export function matchComponentCode(token: string): Allergen | null {
+  buildCodeKeys();
+  const t = token.trim();
+  const m = t.match(/(?:^|[^A-Za-z])([rnt])?\s?([A-Z][a-z]{2})\s*([a-zA-Z0-9])\s*(\d{1,2})(?![\d.])/);
+  if (m) {
+    const prefix = m[1] === 't' ? 'r' : m[1] ?? '';
+    const genus = m[2].toLowerCase();
+    const species = m[3].toLowerCase();
+    const num = m[4];
+    const same = codeKeys!.filter((k) => k.genus === genus && k.num === num);
+    const exact = same.filter((k) => k.species === species);
+    const pool = exact.length ? exact : new Set(same.map((k) => k.species)).size === 1 ? same : [];
+    if (pool.length) return (pool.find((k) => k.prefix === prefix) ?? pool[0]).allergen;
+  }
+  // nGluten / rGluten / nGliadin / nAlpha-Gal 같은 단어형 성분명
+  const w = t.match(/^([rn])?\s?([A-Z][A-Za-z0-9-]{3,})/);
+  if (w) {
+    const prefix = w[1] ?? '';
+    const word = w[2].toLowerCase().replace(/[^a-z0-9]/g, '');
+    const hit = wordKeys!.filter((k) => k.word === word);
+    if (hit.length) return (hit.find((k) => k.prefix === prefix) ?? hit[0]).allergen;
+  }
+  return null;
+}
+
+function matchCore(token: string, threshold: number): MatchResult {
+  const t = token.trim();
   if (!t) return { allergen: null, score: 0, keyLength: 0, isComponent: false };
 
   const isComponent = /^[rn][A-Z][A-Za-z-]+/.test(t);

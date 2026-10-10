@@ -196,21 +196,24 @@ export function clipLeft(lines: OcrLine[], x: number): OcrLine[] {
   return out;
 }
 
-/** 항원명 셀 텍스트를 쉼표 기준으로 토큰화. 괄호 안 쉼표는 보호 */
+/**
+ * 항원명 셀 텍스트를 쉼표 기준으로 토큰화. 괄호 안 쉼표는 보호하되,
+ * OCR이 닫는 괄호를 놓쳐("rDer f 2 (진드기 (Df), 키위, …") 뒤 항원을 통째로 삼키지 않도록
+ * 다음 조각이 새 괄호 없이 닫는 괄호로 끝날 때만 이어 붙인다.
+ */
 export function splitTokens(text: string): string[] {
+  const depth = (s: string) => (s.match(/[(（]/g) ?? []).length - (s.match(/[)）]/g) ?? []).length;
+  const pieces = text.split(/[,，、]/);
   const out: string[] = [];
-  let depth = 0;
-  let cur = '';
-  for (const ch of text) {
-    if (ch === '(' || ch === '（') depth++;
-    if (ch === ')' || ch === '）') depth = Math.max(0, depth - 1);
-    if ((ch === ',' || ch === '，' || ch === '、') && depth === 0) {
-      out.push(cur);
-      cur = '';
-    } else cur += ch;
+  for (let i = 0; i < pieces.length; i++) {
+    let cur = pieces[i];
+    while (depth(cur) > 0 && i + 1 < pieces.length && !/[(（]/.test(pieces[i + 1]) && /[)）]/.test(pieces[i + 1])) {
+      cur += ',' + pieces[++i];
+    }
+    out.push(cur);
   }
-  out.push(cur);
-  return out.map((s) => s.trim()).filter((s) => s.length >= 1 && /[가-힣A-Za-z]/.test(s));
+  // 한글도 없고 영문 3글자 이상도 없으면("#2 48S") 표 테두리·숫자 파편이다
+  return out.map((s) => s.trim()).filter((s) => s.length >= 1 && /[가-힣]|[A-Za-z]{3,}/.test(s));
 }
 
 function stripLabel(s: string): string {
@@ -392,12 +395,24 @@ function finish(rows: Map<number, string[]>, totalIgE: number | null): ParsedRep
   // 4) 토큰화 + 매칭 (같은 행 안의 중복 토큰 제거)
   const findings: Finding[] = [];
   const rowLog: { cls: number; text: string }[] = [];
-  for (const [cls, parts] of rows) {
+  for (const [cls, rawParts] of rows) {
+    // 줄바꿈으로 괄호 설명만 다음 줄에 떨어진 경우("nBos d 4" / "(우유)")는 앞 항원에 붙인다
+    const parts: string[] = [];
+    for (const p of rawParts) {
+      const cont = p.match(/^[^가-힣A-Z(（]{0,2}\s*([(（].*)$/);
+      if (cont && parts.length && !/[)）]\s*$/.test(parts[parts.length - 1])) parts[parts.length - 1] += ' ' + cont[1];
+      else parts.push(p);
+    }
     const text = parts.join(', ');
     rowLog.push({ cls, text });
     if (cls === 0) continue;
     const seenTok = new Set<string>();
-    for (const tok of splitTokens(text)) {
+    // 쉼표가 빠져 한글 항원 뒤에 성분 코드가 붙은 경우("저장진드기 rQue a 1 (참나무)") 둘로 나눈다
+    const toks = splitTokens(text).flatMap((tok) => {
+      const m = tok.match(/^([가-힣][가-힣\s]+?)\s+([rn]?[A-Z][a-z]{2}\s*[a-z0-9]\s*\d.*)$/);
+      return m && !/[(（]/.test(m[1]) ? [m[1], m[2]] : [tok];
+    });
+    for (const tok of toks) {
       const key = tok.replace(/\s+/g, '').toLowerCase();
       if (seenTok.has(key)) continue;
       seenTok.add(key);

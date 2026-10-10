@@ -173,3 +173,25 @@ test('chartText formats for the chart', () => {
   assert.ok(lines[1].includes('집먼지진드기'));
   assert.ok(lines[lines.length - 1].startsWith('Class 1: '));
 });
+
+test('결과지 표기가 목록과 달라도 매칭: 성분 코드·슬래시·괄호', () => {
+  assert.equal(matchToken('rDer p 10 (진드기 (Dp))').allergen?.name_en, 'rDer p 10');
+  assert.equal(matchToken('rDer p 10 (진드기 (Dp))').score, 1);
+  assert.equal(matchToken('nGluten (밀가루)').allergen?.name_en, 'rGluten');
+  assert.equal(matchToken('nBos 0 4 (우유)').allergen?.name_en, 'nBos d 4');
+  assert.equal(matchToken('rBet v 1 (자작나무)').allergen?.name_en, 'rBet v 1');
+  assert.equal(matchToken('nBet v 1').allergen?.name_en, 'nBet v 1');
+  assert.equal(matchToken('생쥐 / 쥐').allergen?.name_ko, '쥐');
+  assert.ok(matchToken('0 ㅁ 8605 0 5 (우유)').score < 0.8);
+});
+
+test('splitTokens: 닫는 괄호를 놓쳐도 뒤 항원을 삼키지 않음', () => {
+  assert.deepEqual(splitTokens('rDer f 2 (진드기 (Df), 키위, 망고'), ['rDer f 2 (진드기 (Df)', '키위', '망고']);
+  assert.deepEqual(splitTokens('#2 48S, 소고기'), ['소고기']);
+});
+
+test('parseLines: 줄바꿈된 괄호 설명은 앞 항원에 붙임', () => {
+  const ln = (text: string, y: number, x = 10): OcrLine => ({ text, x0: x, y0: y, x1: x + 300, y1: y + 20 });
+  const r = parseLines([ln('0.35 ~ 0.69 1 낮음', 100), ln('햄스터, nBos d 4', 90, 400), ln('i (우유)', 112, 400)]);
+  assert.deepEqual(r.findings.map((f) => f.raw).sort(), ['nBos d 4 (우유)', '햄스터']);
+});
